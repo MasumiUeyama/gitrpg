@@ -6,10 +6,10 @@
 
 <dwr>
   <allow>
-    <create creator="new" javascript="MultiplePrinter">
-      <param name="class" value="jp.ac.oit.igakilab.dwr.multiple.MultiplePrinter"/>
+    <create creator="new" javascript="gitrpg">
+      <param name="class" value="gitrpg.Mongo"/>
     </create>
-    <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
+    <convert converter="bean" match="gitrpg.*" />
     <convert converter="exception" match="java.lang.Exception" />
     <convert converter="bean" match="java.lang.StackTraceElement"/>
   </allow>
