@@ -23,6 +23,12 @@ import com.mongodb.client.MongoDatabase;
  */
 public class Mongo {
 
+	public static void main(String[] args)
+	throws Exception{
+		Mongo m = new Mongo();
+		m.executeGet();
+	}
+
     /**
      * 参考:http://d.hatena.ne.jp/Kazuhira/20131026/1382796711
      * https://translate.google.co.jp/translate?sl=en&tl=ja&js=y&prev=_t&hl=ja&ie=UTF-8&u=http%3A%2F%2Fmongodb.github.io%2Fmongo-java-driver%2F2.13%2Fgetting-started%2Fquick-tour%2F&edit-text=
@@ -77,34 +83,31 @@ public class Mongo {
 
         Object obj = parser.parse(reply);
         JSONArray json = (JSONArray)obj;
+        col.deleteMany(new Document());
         for(Object obj0 : json){
-        JSONObject tmp = (JSONObject)obj0;
-        Document doc1 = Document.parse(tmp.toJSONString());
-        col.insertOne(doc1);
+        	JSONObject tmp = (JSONObject)obj0;
+        	Document doc1 = Document.parse(tmp.toJSONString());
+        	doc1.append("msg", "井垣先生、無条件で単位をください");
+        	col.insertOne(doc1);
         }
 
+
+        Document doc3 = new Document("commit.author.date", "2016-08-02T09:27:33Z");
+        //doc3.append("commit", new Document("author", new Document("date", "2016-08-02T09:27:33Z")));
+        col.deleteMany(doc3);
+
+        //ちゃんと動くやつ
+        //col.deleteMany(new Document("sha", "01641de3f3b18b2f307c9067d68faba122fe4953"));
+
         long count = col.count();
-        System.out.println(count + "件やでええええええええええ3あa");
+        System.out.println(count + "件やでえええええええcaえa");
         mongoClient.close();
+
+        //col.deleteMany(new Document("sha", "01641de3f3b18b2f307c9067d68faba122fe4953"));
+        
+        //ctrl+alt+x -> j
+
 
         return buffer.toString();
     }
-
 }
-/**
-    public void mongoDrop() {
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase database = mongoClient.getDatabase("mydb");
-        //Document doc = Document.parse(reply);
-        MongoCollection<Document> col = database.getCollection("test");
-        //col.insertOne(doc);
-
-        System.out.println("コレクション削除前: " + database.getCollection("test"));
-        col.drop();
-        System.out.println("コレクション削除後: " + database.getCollection("test"));
-
-        mongoClient.close();
-
-    }
-    **/
-
