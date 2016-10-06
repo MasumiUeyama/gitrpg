@@ -6,5 +6,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Kamome/Documents/GitHub/gitrpg/WebContent/WEB-INF/lib/mongo-java-driver-3.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kamome/Documents/GitHub/gitrpg/WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
