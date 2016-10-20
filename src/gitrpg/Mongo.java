@@ -53,7 +53,8 @@ public class Mongo {
     	//しばらくjson見れたかどうかのチェック？
         try {
             //URL url = new URL("https://api.github.com/repos/igakilab/api/commits?page=3&per_page=50");
-            URL url = new URL("https://api.github.com/repos/masumiueyama/gitrpg/commits");
+            //URL url = new URL("https://api.github.com/repos/masumiueyama/gitrpg/commits");
+            URL url = new URL("https://api.github.com/repos/igakilab/ueyamatest/commits?access_token=28c2f93a824feabdb3ca049016c6c307ad979da1");
             HttpURLConnection connection = null;
 
             try {
@@ -116,9 +117,11 @@ public class Mongo {
 
 
         long count = col.count();
-        System.out.println("log:a" + count);
+        System.out.println("All:" + count);
 
 		BasicDBObject query = new BasicDBObject();
+		//query.put("commit.author.name", "Koike Takaaki");
+		//query.put("commit.author.name", "kioke takaaki");
 		query.put("commit.author.name", "ue");
 		System.out.println(query);
 		Document doc4;
@@ -130,8 +133,8 @@ public class Mongo {
 			//col2.insertOne(cursor.next());
 		}
 
-        count = col.count();
-        System.out.println("log:b" + count);
+        count = col2.count();
+        System.out.println("col2.koike-marshmallow:" + count);
 
         /**
 		MongoCursor<Document> cursor = col.find().iterator();
@@ -158,8 +161,6 @@ public class Mongo {
     	doc3.append("commit", new Document("author", new Document("date", "2016-08-02T09:27:33Z")));
         **/
 
-        count = col.count();
-        System.out.println("log:c:" + count);
         mongoClient.close();
 
         //ctrl+alt+x -> j
