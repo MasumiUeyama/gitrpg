@@ -1,8 +1,10 @@
 package gitrpg;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +30,10 @@ public class Mongo {
 
 	public static void main(String[] args)
 	throws Exception{
-		Mongo m = new Mongo();
-		m.executeGet();
+		Mongo g = new Mongo();
+		g.executeGet();
+		Mongo p = new Mongo();
+		p.executePost();
 	}
 
     /**
@@ -53,8 +57,8 @@ public class Mongo {
     	//しばらくjson見れたかどうかのチェック？
         try {
             //URL url = new URL("https://api.github.com/repos/igakilab/api/commits?page=3&per_page=50");
-            //URL url = new URL("https://api.github.com/repos/masumiueyama/gitrpg/commits");
-            URL url = new URL("https://api.github.com/repos/igakilab/ueyamatest/commits?access_token=28c2f93a824feabdb3ca049016c6c307ad979da1");
+            URL url = new URL("https://api.github.com/repos/masumiueyama/gitrpg/commits");
+            //URL url = new URL("https://api.github.com/repos/igakilab/ueyamatest/commits?access_token=28c2f93a824feabdb3ca049016c6c307ad979da1");
             HttpURLConnection connection = null;
 
             try {
@@ -105,15 +109,14 @@ public class Mongo {
         	col.insertOne(doc1);
         }
 
-
-/**
-        for(int i=0;i<=count;i++){
-        	Document doc3 = new Document("commit.author.name", "MasumiUeyama");
-        	//col.deleteMany(doc3);
-        	//DeleteResult deleteResult = col.deleteMany(doc3); //System.out.println( "でりーと" +deleteResult.getDeletedCount());
-        	//System.out.println(deleteResult);
-        }
-**/
+//        /**
+//         *       for(int i=0;i<=count;i++){
+//         *       	Document doc3 = new Document("commit.author.name", "MasumiUeyama");
+//         *       	//col.deleteMany(doc3);
+//         *       	//DeleteResult deleteResult = col.deleteMany(doc3); //System.out.println( "でりーと" +deleteResult.getDeletedCount());
+//         *       	//System.out.println(deleteResult);
+//         *       }
+//         */
 
 
         long count = col.count();
@@ -134,7 +137,7 @@ public class Mongo {
 		}
 
         count = col2.count();
-        System.out.println("col2.koike-marshmallow:" + count);
+        System.out.println("col2.ue:" + count);
 
         /**
 		MongoCursor<Document> cursor = col.find().iterator();
@@ -167,5 +170,48 @@ public class Mongo {
 
 
         return buffer.toString();
+    }
+
+
+    public void executePost() {
+        System.out.println("===== HTTP POST Start =====");
+        try {
+            URL url = new URL("https://habitica.com/api/v3/challenges");
+
+            HttpURLConnection connection = null;
+
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(),
+                                                                                  StandardCharsets.UTF_8));
+                writer.write("POST Body");
+                writer.write("\r\n");
+                writer.write("Hello Http Server!!");
+                writer.write("\r\n");
+                writer.flush();
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    try (InputStreamReader isr = new InputStreamReader(connection.getInputStream(),
+                                                                       StandardCharsets.UTF_8);
+                         BufferedReader reader = new BufferedReader(isr)) {
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                        }
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("===== HTTP POST End =====");
     }
 }
