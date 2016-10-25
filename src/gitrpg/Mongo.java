@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 
 import org.bson.Document;
 import org.json.simple.JSONArray;
@@ -32,8 +33,8 @@ public class Mongo {
 	throws Exception{
 		Mongo g = new Mongo();
 		g.executeGet();
-		Mongo p = new Mongo();
-		p.executePost();
+		//Mongo p = new Mongo();
+		//p.executePost();
 	}
 
     /**
@@ -57,7 +58,7 @@ public class Mongo {
     	//しばらくjson見れたかどうかのチェック？
         try {
             //URL url = new URL("https://api.github.com/repos/igakilab/api/commits?page=3&per_page=50");
-            URL url = new URL("https://api.github.com/repos/masumiueyama/gitrpg/commits");
+            URL url = new URL("https://api.github.com/repos/igakilab/gitrpg/commits");
             //URL url = new URL("https://api.github.com/repos/igakilab/ueyamatest/commits?access_token=28c2f93a824feabdb3ca049016c6c307ad979da1");
             HttpURLConnection connection = null;
 
@@ -86,11 +87,21 @@ public class Mongo {
         }
         String reply = buffer.toString();
         System.out.println(reply);
+
+        String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
+        String b = "\"},\"committer\":";
+
+        System.out.println("ここまで");
+
+        reply = reply.replaceAll(a,b);
+
+        System.out.println(reply);
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("mydb");
         //Document doc = Document.parse(reply);
-        MongoCollection<Document> col = database.getCollection("test");
+        MongoCollection<Document> col1 = database.getCollection("test1");
         MongoCollection<Document> col2 = database.getCollection("test2");
+        MongoCollection<Document> col3 = database.getCollection("test3");
         //col.insertOne(doc);
 
         JSONParser parser = new JSONParser();
@@ -100,13 +111,14 @@ public class Mongo {
         JSONArray json = (JSONArray)obj;
 
         //リセット
-        col.deleteMany(new Document());
+        col1.deleteMany(new Document());
         col2.deleteMany(new Document());
+        col3.deleteMany(new Document());
 
         for(Object obj0 : json){
         	JSONObject tmp = (JSONObject)obj0;
         	Document doc1 = Document.parse(tmp.toJSONString());
-        	col.insertOne(doc1);
+        	col1.insertOne(doc1);
         }
 
 //        /**
@@ -119,25 +131,54 @@ public class Mongo {
 //         */
 
 
-        long count = col.count();
-        System.out.println("All:" + count);
+//        Document myDoc = col.find(in("commit.author.date",today)).first();
+//        System.out.println(myDoc.toJson());
+
+        long count = col1.count();
+        System.out.println("cal1.全部指定:" + count);
 
 		BasicDBObject query = new BasicDBObject();
+		BasicDBObject query2 = new BasicDBObject();
 		//query.put("commit.author.name", "Koike Takaaki");
 		//query.put("commit.author.name", "kioke takaaki");
-		query.put("commit.author.name", "ue");
-		System.out.println(query);
-		Document doc4;
+		query.put("commit.author.name", "MasumiUeyama");
 
-		MongoCursor<Document> cursor = col.find(query).iterator();
+		Document doc1;
+		Document doc2;
+
+		//Document time = col.find(in("commit.author.date",today)).first();
+
+		MongoCursor<Document> cursor = col1.find(query).iterator();
 		while (cursor.hasNext()) {
-			doc4 = cursor.next();
-	       	col2.insertOne(doc4);
-			//col2.insertOne(cursor.next());
+			doc1 = cursor.next();
+	       	col2.insertOne(doc1);
 		}
 
         count = col2.count();
-        System.out.println("col2.ue:" + count);
+        System.out.println("col2.名前指定:" + count);
+
+
+        String time=a;
+        Calendar cal = Calendar.getInstance();
+        int DAY=7;
+        for(int i =0;i<DAY;i++){
+        	int year = cal.get(Calendar.YEAR);
+        	int month = cal.get(Calendar.MONTH) + 1;
+        	int day = cal.get(Calendar.DATE);
+        	time =year + "-" + month  + "-" + day;
+        	//System.out.println(time);
+        	cal.add(Calendar.DATE, -1);
+
+        	query2.put("commit.author.date", time);
+        	MongoCursor<Document> cursor2 = col2.find(query2).iterator();
+        	while (cursor2.hasNext()) {
+        		doc2 = cursor2.next();
+        		col3.insertOne(doc2);
+        		//col2.insertOne(cursor.next());
+        	}
+        }
+        count = col3.count();
+        System.out.println("col3. "+DAY+"日間分:" + count);
 
         /**
 		MongoCursor<Document> cursor = col.find().iterator();
