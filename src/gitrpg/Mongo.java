@@ -239,7 +239,8 @@ public class Mongo {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(),
                                                                                   StandardCharsets.UTF_8));
 
-                writer.write("text=ペニ&type=todo&userId=ea2f74bd-5080-4345-a95d-842455aeb4f1");
+                writer.write("text=commit&type=habit&userId=ea2f74bd-5080-4345-a95d-842455aeb4f1&notes=test");
+                //writer.write("text=ペニ&type=todo&userId=ea2f74bd-5080-4345-a95d-842455aeb4f1");
 
                 writer.flush();
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -263,7 +264,6 @@ public class Mongo {
 
         System.out.println("===== HTTP POST End =====");
     }
-
 
 
     public static int executeGet2() throws ParseException {
