@@ -29,14 +29,23 @@ import com.mongodb.client.MongoDatabase;
  */
 public class Mongo {
 
-	public static void main(String[] args)
-	throws Exception{
+	public static void main(String[] args) throws Exception{
+		int a=0;
+		int b=0;
 		//Mongo g = new Mongo();
 		//g.executeGet();
 		//Mongo p = new Mongo();
 		//p.executePost();
 		Mongo p2 = new Mongo();
 		p2.executeGet2();
+		a=executeGet();
+		b=executeGet2();
+		System.out.println("1週間のコミット: "+ a + "\n" +"指定されたあれ: " + b);
+		if(a>=b) {
+			System.out.println("よーやった");
+		} else {
+			System.out.println("死ねカス");
+		}
 	}
 
     /**
@@ -54,7 +63,7 @@ public class Mongo {
      * @throws Exception
      */
 
-    public  String executeGet() throws ParseException {
+    public static int executeGet() throws ParseException {
     	//文字列buffer作ったよ
     	StringBuffer buffer = new StringBuffer();
     	//しばらくjson見れたかどうかのチェック？
@@ -88,16 +97,13 @@ public class Mongo {
             e.printStackTrace();
         }
         String reply = buffer.toString();
-        System.out.println(reply);
 
         String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
         String b = "\"},\"committer\":";
 
-        System.out.println("ここまで");
-
         reply = reply.replaceAll(a,b);
 
-        System.out.println(reply);
+        //System.out.println(reply);
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("mydb");
         //Document doc = Document.parse(reply);
@@ -137,7 +143,7 @@ public class Mongo {
 //        System.out.println(myDoc.toJson());
 
         long count = col1.count();
-        System.out.println("cal1.全部指定:" + count);
+        //System.out.println("cal1.全部指定:" + count);
 
 		BasicDBObject query = new BasicDBObject();
 		BasicDBObject query2 = new BasicDBObject();
@@ -157,7 +163,7 @@ public class Mongo {
 		}
 
         count = col2.count();
-        System.out.println("col2.名前指定:" + count);
+        //System.out.println("col2.名前指定:" + count);
 
 
         String time=a;
@@ -180,7 +186,7 @@ public class Mongo {
         	}
         }
         count = col3.count();
-        System.out.println("col3. "+DAY+"日間分:" + count);
+        //System.out.println("col3. "+DAY+"日間分:" + count);
 
         /**
 		MongoCursor<Document> cursor = col.find().iterator();
@@ -212,7 +218,7 @@ public class Mongo {
         //ctrl+alt+x -> j
 
 
-        return buffer.toString();
+        return (int) count;
     }
 
 
@@ -260,9 +266,11 @@ public class Mongo {
 
 
 
-    public  String executeGet2() throws ParseException {
+    public static int executeGet2() throws ParseException {
+
     	//文字列buffer作ったよ
     	StringBuffer buffer = new StringBuffer();
+    	int n = 0;
     	//しばらくjson見れたかどうかのチェック？
         try {
             //URL url = new URL("https://api.github.com/repos/igakilab/api/commits?page=3&per_page=50");
@@ -297,17 +305,19 @@ public class Mongo {
         }
         String reply = buffer.toString();
 
-        System.out.println(reply);
+        //System.out.println(reply);
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("mydb");
         //Document doc = Document.parse(reply);
-        MongoCollection<Document> col = database.getCollection("test1aaa");
+        MongoCollection<Document> col1 = database.getCollection("test1aaa");
+        MongoCollection<Document> col2 = database.getCollection("test1abb");
         //col.insertOne(doc);
 
         //String s="[{id:1}, {id:2}]";
 
         //リセット
-        col.deleteMany(new Document());
+        col1.deleteMany(new Document());
+        col2.deleteMany(new Document());
 
         /*for(Object obj0 : json){
         	JSONObject tmp = (JSONObject)obj0;
@@ -315,9 +325,42 @@ public class Mongo {
         	col123.insertOne(doc1);
         }*/
 
-        Document doc = Document.parse(reply);
-        col.insertOne(doc);
-        System.out.println("ぺに");
+
+        //JSON変換
+        JSONParser parser = new JSONParser();
+        Object raw = parser.parse(reply);
+
+        //dataを取り出す
+        JSONObject jobj = (JSONObject)raw;
+        Object dataRaw = jobj.get("data");
+        JSONArray data = (JSONArray)dataRaw;
+
+        //for(int i=0; i<data.size(); i++){}
+        for(Object d : data){
+        	//データベースに登録
+        	//System.out.println(d.toString());
+        	Document doc = Document.parse(d.toString());
+        	col1.insertOne(doc);
+        }
+		BasicDBObject query = new BasicDBObject();
+		//query.put("commit.author.name", "Koike Takaaki");
+		//query.put("commit.author.name", "kioke takaaki");
+		query.put("text", "コミット数");
+
+		Document doc2=null;
+
+		//Document time = col.find(in("commit.author.date",today)).first();
+
+		MongoCursor<Document> cursor = col1.find(query).iterator();
+		while (cursor.hasNext()) {
+			doc2 = cursor.next();
+	       	col2.insertOne(doc2);
+		}
+
+        for(Document doc : col2.find()){
+        	n = Integer.parseInt(doc.getString("notes"));
+        	//System.out.println(n);
+        }
 
         /*
          *
@@ -369,6 +412,6 @@ public class Mongo {
         //ctrl+alt+x -> j
 
 
-        return buffer.toString();
+        return n;
     }
 }
