@@ -34,8 +34,8 @@ public class Mongo {
 		int b=0;
 		//Mongo g = new Mongo();
 		//g.executeGet();
-		//Mongo p = new Mongo();
-		//p.executePost();
+		Mongo p = new Mongo();
+		p.executePost();
 		Mongo p2 = new Mongo();
 		p2.executeGet2();
 		a=executeGet();
@@ -225,7 +225,7 @@ public class Mongo {
     public void executePost() {
         System.out.println("===== HTTP POST Start =====");
         try {
-            URL url = new URL("https://habitica.com/api/v3/challenges");
+            URL url = new URL("https://habitica.com/api/v3/tasks/user");
 
             HttpURLConnection connection = null;
 
@@ -233,15 +233,15 @@ public class Mongo {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
-                connection.setRequestProperty("Accept-Language", "jp");
+                connection.setRequestProperty("x-api-user", "ea2f74bd-5080-4345-a95d-842455aeb4f1");
+                connection.setRequestProperty("x-api-key", "b3f10b82-6937-4e79-aaae-82babe1ec2df");
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(),
                                                                                   StandardCharsets.UTF_8));
-                writer.write("POST Body");
-                writer.write("\r\n");
-                writer.write("Hello Http Server!!");
-                writer.write("\r\n");
-                writer.flush();
 
+                writer.write("text=ペニ&type=todo&userId=ea2f74bd-5080-4345-a95d-842455aeb4f1");
+
+                writer.flush();
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     try (InputStreamReader isr = new InputStreamReader(connection.getInputStream(),
                                                                        StandardCharsets.UTF_8);
