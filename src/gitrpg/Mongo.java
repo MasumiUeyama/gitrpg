@@ -301,23 +301,27 @@ public class Mongo {
         MongoClient mongoClient = new MongoClient();
         MongoDatabase database = mongoClient.getDatabase("mydb");
         //Document doc = Document.parse(reply);
-        MongoCollection<Document> col123 = database.getCollection("test1aaa");
+        MongoCollection<Document> col = database.getCollection("test1aaa");
         //col.insertOne(doc);
 
-        JSONParser parser = new JSONParser();
         //String s="[{id:1}, {id:2}]";
 
-        Object obj = parser.parse(reply);
-        JSONArray json = (JSONArray)obj;
-
         //リセット
-        col123.deleteMany(new Document());
+        col.deleteMany(new Document());
 
-        for(Object obj0 : json){
+        /*for(Object obj0 : json){
         	JSONObject tmp = (JSONObject)obj0;
         	Document doc1 = Document.parse(tmp.toJSONString());
         	col123.insertOne(doc1);
-        }
+        }*/
+
+        Document doc = Document.parse(reply);
+        col.insertOne(doc);
+        System.out.println("ぺに");
+
+        /*
+         *
+         */
 
 //        /**
 //         *       for(int i=0;i<=count;i++){
