@@ -31,10 +31,12 @@ public class Mongo {
 
 	public static void main(String[] args)
 	throws Exception{
-		Mongo g = new Mongo();
-		g.executeGet();
+		//Mongo g = new Mongo();
+		//g.executeGet();
 		//Mongo p = new Mongo();
 		//p.executePost();
+		Mongo p2 = new Mongo();
+		p2.executeGet2();
 	}
 
     /**
@@ -225,7 +227,7 @@ public class Mongo {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
-
+                connection.setRequestProperty("Accept-Language", "jp");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream(),
                                                                                   StandardCharsets.UTF_8));
                 writer.write("POST Body");
@@ -254,5 +256,115 @@ public class Mongo {
         }
 
         System.out.println("===== HTTP POST End =====");
+    }
+
+
+
+    public  String executeGet2() throws ParseException {
+    	//文字列buffer作ったよ
+    	StringBuffer buffer = new StringBuffer();
+    	//しばらくjson見れたかどうかのチェック？
+        try {
+            //URL url = new URL("https://api.github.com/repos/igakilab/api/commits?page=3&per_page=50");
+            URL url = new URL("https://habitica.com/api/v3/tasks/user");
+            //URL url = new URL("https://api.github.com/repos/igakilab/ueyamatest/commits?access_token=28c2f93a824feabdb3ca049016c6c307ad979da1");
+            HttpURLConnection connection = null;
+
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("x-api-user", "ea2f74bd-5080-4345-a95d-842455aeb4f1");
+                connection.setRequestProperty("x-api-key", "b3f10b82-6937-4e79-aaae-82babe1ec2df");
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    try (InputStreamReader isr = new InputStreamReader(connection.getInputStream(),
+                                                                       StandardCharsets.UTF_8);
+                         BufferedReader reader = new BufferedReader(isr)) {
+                        //文末まで読んで全部引っ付ける
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            buffer.append(line);
+                        }
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String reply = buffer.toString();
+
+        System.out.println(reply);
+        MongoClient mongoClient = new MongoClient();
+        MongoDatabase database = mongoClient.getDatabase("mydb");
+        //Document doc = Document.parse(reply);
+        MongoCollection<Document> col123 = database.getCollection("test1aaa");
+        //col.insertOne(doc);
+
+        JSONParser parser = new JSONParser();
+        //String s="[{id:1}, {id:2}]";
+
+        Object obj = parser.parse(reply);
+        JSONArray json = (JSONArray)obj;
+
+        //リセット
+        col123.deleteMany(new Document());
+
+        for(Object obj0 : json){
+        	JSONObject tmp = (JSONObject)obj0;
+        	Document doc1 = Document.parse(tmp.toJSONString());
+        	col123.insertOne(doc1);
+        }
+
+//        /**
+//         *       for(int i=0;i<=count;i++){
+//         *       	Document doc3 = new Document("commit.author.name", "MasumiUeyama");
+//         *       	//col.deleteMany(doc3);
+//         *       	//DeleteResult deleteResult = col.deleteMany(doc3); //System.out.println( "でりーと" +deleteResult.getDeletedCount());
+//         *       	//System.out.println(deleteResult);
+//         *       }
+//         */
+
+
+//        Document myDoc = col.find(in("commit.author.date",today)).first();
+//        System.out.println(myDoc.toJson());
+
+		//Document time = col.find(in("commit.author.date",today)).first();
+
+
+        /**
+		MongoCursor<Document> cursor = col.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+            }
+        } finally {
+            cursor.close();
+        }
+
+
+        count = col.count();
+
+        for(int i=0;i<=count;i++){
+        	Document doc3 = new Document("commit.author.name", "ue");
+        	col.deleteMany(doc3);
+        }
+
+
+        ちゃんと動くやつ
+        col.deleteMany(new Document("sha", "01641de3f3b18b2f307c9067d68faba122fe4953"));
+        動かなe
+    	doc3.append("commit", new Document("author", new Document("date", "2016-08-02T09:27:33Z")));
+        **/
+
+        mongoClient.close();
+
+        //ctrl+alt+x -> j
+
+
+        return buffer.toString();
     }
 }
