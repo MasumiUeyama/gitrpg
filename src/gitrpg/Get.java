@@ -26,7 +26,7 @@ import com.mongodb.client.MongoDatabase;
  * @author Hiroshi
  *
  */
-public class Mongo {
+public class Get {
 
 	public static void main(String[] args) throws Exception{
 		Mongo p = new Mongo();
@@ -94,6 +94,7 @@ public class Mongo {
         }
         long count = col3.count();
         mongoClient.close();
+
         return (int) count;
     }
 
