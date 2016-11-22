@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 public class http {
 
-	public static String githubGet(String args) throws Exception{
+	public static String apiGet(String args) throws Exception{
 		//文字列buffer作ったよ
 		StringBuffer buffer = new StringBuffer();
 		//しばらくjson見れたかどうかのチェック？
