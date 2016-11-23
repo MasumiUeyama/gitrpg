@@ -37,6 +37,17 @@ public class Mongo {
 		}
 	}
 
+	public static void mongoSet2(MongoCollection<Document> col1,String reply) throws Exception {
+        JSONParser parser = new JSONParser();
+        Object raw = parser.parse(reply);
+        JSONArray data = (JSONArray)raw;
+
+        for(Object d : data){
+        	Document doc = Document.parse(d.toString());
+        	col1.insertOne(doc);
+        }
+	}
+
 	public static void mongoDelete(MongoCollection<Document> col1) throws Exception {
 		col1.deleteMany(new Document());
 	}

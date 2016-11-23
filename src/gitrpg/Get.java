@@ -37,8 +37,11 @@ public class Get {
 		Mongo.mongoTime(col2,col3,"commit.author.date",DAY);
 		long count = col3.count();
 
+		String sha[] = shaGet(col3,(int)count);
+
 		mongoClient.close();
 
+		changeGet(url,sha);
 
 		return (int) count;
 	}
@@ -55,5 +58,21 @@ public class Get {
 		return sha;
 	}
 
+	public static void changeGet(String url,String sha[]) throws Exception {
 
+		String reply="";
+		String urls[]=new String[sha.length];
+		for(int i=0;i<sha.length-1;i++){
+				urls[i]=url+"/" + sha[i];
+				reply = reply+ http.apiGet(urls[i]);
+				System.out.println(urls[i]);
+		}
+		System.out.println(reply);
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("changeGet1");
+		Mongo.mongoSet2(col1, reply);
+
+		mongoClient.close();
+	}
 }
