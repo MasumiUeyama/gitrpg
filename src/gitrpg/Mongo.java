@@ -1,10 +1,16 @@
 package gitrpg;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 
@@ -16,8 +22,20 @@ import com.mongodb.client.MongoCursor;
 public class Mongo {
 
 	public static void main(String[] args) throws Exception{
+		Main.main();
 	}
 
+	public static void mongoSet1(MongoCollection<Document> col1,String reply) throws Exception {
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(reply);
+		JSONArray json = (JSONArray)obj;
+
+		for(Object obj0 : json){
+			JSONObject tmp = (JSONObject)obj0;
+			Document doc1 = Document.parse(tmp.toJSONString());
+			col1.insertOne(doc1);
+		}
+	}
 
 	public static void mongoDelete(MongoCollection<Document> col1) throws Exception {
 		col1.deleteMany(new Document());
@@ -34,7 +52,7 @@ public class Mongo {
 		col3.deleteMany(new Document());
 	}
 
-	public static void mongoFind(MongoCollection<Document> col1,MongoCollection<Document> col2,String key1,String key2) throws Exception {
+	public static void mongoFltr(MongoCollection<Document> col1,MongoCollection<Document> col2,String key1,String key2) throws Exception {
 		BasicDBObject query = new BasicDBObject();
 		Document doc1;
 		query.put(key1, key2);
@@ -62,6 +80,33 @@ public class Mongo {
 				col2.insertOne(doc1);
 			}
 		}
+	}
 
+	public static String mongoConvString(MongoCollection<Document> col1) throws Exception {
+		String doc="a";
+		FindIterable<Document> iterator = col1.find();
+		MongoCursor<Document> cursor = iterator.iterator();
+		while(cursor.hasNext()){
+			doc += cursor.next();
+			doc += System.getProperty("line.separator");
+		}
+
+		return doc;
+	}
+
+
+	public static String[] mongoExtract(String doc,int i) throws Exception {
+		int count=0;
+		String strArray[] = new String[i+1];
+		String regex = "comments, sha=........................................";
+		Pattern pa = Pattern.compile(regex);
+		Matcher m1 = pa.matcher(doc);
+		if (m1.find() ) {
+			do {
+				strArray[count++]=m1.group().substring(14, 54);
+			} while (m1.find() );
+			System.out.println();
+		}
+		return strArray;
 	}
 }
