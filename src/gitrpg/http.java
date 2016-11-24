@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 
 public class http {
 
+	public static void main(String[] args) throws Exception{
+		apiGet("https://api.github.com/repos/igakilab/tasks-monitor/commits");
+	}
 	public static String apiGet(String args) throws Exception{
 		//文字列buffer作ったよ
 		StringBuffer buffer = new StringBuffer();
@@ -21,7 +24,8 @@ public class http {
 				connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 
-				if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				int c = 0;
+				if ( (c = connection.getResponseCode()) == HttpURLConnection.HTTP_OK) {
 					try (InputStreamReader isr = new InputStreamReader(connection.getInputStream(),
 							StandardCharsets.UTF_8);
 							BufferedReader reader = new BufferedReader(isr)) {
@@ -31,6 +35,8 @@ public class http {
 							buffer.append(line);
 						}
 					}
+				}else{
+					System.out.println("失敗: " + c);
 				}
 			} finally {
 				if (connection != null) {
@@ -41,6 +47,7 @@ public class http {
 			e.printStackTrace();
 		}
 		String reply = buffer.toString();
+		System.out.println(":"+reply);
 		return reply;
 	}
 }
