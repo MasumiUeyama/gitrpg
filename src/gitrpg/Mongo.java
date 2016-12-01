@@ -27,7 +27,6 @@ public class Mongo {
 
 	public static void mongoSet1(MongoCollection<Document> col1,String reply) throws Exception {
 		JSONParser parser = new JSONParser();
-		System.out.println(reply);
 		Object obj = parser.parse(reply);
 		JSONArray json = (JSONArray)obj;
 
@@ -118,7 +117,7 @@ public class Mongo {
 			do {
 				strArray[count++]=m1.group().substring(14, 54);
 			} while (m1.find() );
-			System.out.println();
+			//System.out.println();
 		}
 		return strArray;
 	}
@@ -126,6 +125,7 @@ public class Mongo {
 	public static void test (String reply,int j)throws Exception {
 
 		String strArray[] = new String[j+1];
+		System.out.println("j:"+j);
 		//文字列データをオブジェクトに変換
 		JSONParser p = new JSONParser();
 		Object parsed = p.parse(reply);
@@ -147,8 +147,13 @@ public class Mongo {
 		    //[]のやつのときはJson
 		    JSONObject t1 = (JSONObject)commit.get("stats");
 		    long doc1= (Long)t1.get("total");
-		    System.out.println(doc1);
+		    System.out.println((int)doc1);
 		}
 		//return strArray;
+	}
+
+	public static int mongoCount(MongoCollection<Document> col){
+		long count = col.count();
+		return (int) count;
 	}
 }

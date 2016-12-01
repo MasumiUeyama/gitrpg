@@ -47,7 +47,7 @@ public class http {
 			e.printStackTrace();
 		}
 		String reply = buffer.toString();
-		System.out.println(":"+reply);
+		//System.out.println(":"+reply);
 		return reply;
 	}
 }
