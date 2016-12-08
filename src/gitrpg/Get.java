@@ -52,9 +52,9 @@ public class Get {
 		String reply="[";
 		String urls[]=new String[sha.length];
 		for(int i=0;i<sha.length-1;i++){
-				urls[i]=url+"/" + sha[i];
-				reply = reply+ http.apiGet(urls[i]);
-				//System.out.println(urls[i]);
+			urls[i]=url+"/" + sha[i];
+			reply = reply+ http.apiGet(urls[i]);
+			//System.out.println(urls[i]);
 		}
 		reply = reply + "]";
 		//System.out.println(reply);
@@ -64,7 +64,13 @@ public class Get {
 
 	}
 
-	public static void commentGet() throws Exception{
+	public static void commentGet(String TEAM,String REPOS,
+			MongoCollection<Document> col1) throws Exception{
+		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
+		String reply=http.apiGet(url);
+		Mongo.mongoSet1(col1, reply);
+		int count = Mongo.mongoCount(col1);
+		Mongo.test2(reply, count);
 
 	}
 }
