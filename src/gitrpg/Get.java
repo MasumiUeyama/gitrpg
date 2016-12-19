@@ -15,7 +15,7 @@ public class Get {
 		Main.main();
 	}
 
-	public static int githubCommitsGet(String TEAM,String REPOS,String NAME,int DAY,
+	public static int CommitsGet(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1,
 			MongoCollection<Document> col2,
 			MongoCollection<Document> col3) throws Exception {

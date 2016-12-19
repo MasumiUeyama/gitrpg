@@ -22,7 +22,7 @@ public class Main {
 		MongoCollection<Document> col4 = database.getCollection("changeGet1");
 		MongoCollection<Document> col5 = database.getCollection("commentGet1");
 		Mongo.mongoDelete(col1,col2,col3);
-		System.out.println("コミット数:"+Get.githubCommitsGet(team,repo,name,day,col1,col2,col3));
+		System.out.println("コミット数:"+Get.CommitsGet(team,repo,name,day,col1,col2,col3));
 
 		String sha[] = Get.shaGet(col3,Mongo.mongoCount(col3));
 
