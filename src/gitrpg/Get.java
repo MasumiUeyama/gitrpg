@@ -37,7 +37,7 @@ public class Get {
 
 
 	public static String[] getSha(MongoCollection<Document> col,int count) throws Exception {
-		String sha[]=Mongo.shaExtract(Mongo.convString(col),(int)count);
+		String sha[]=Mongo.extractSha(Mongo.convString(col),(int)count);
 		for(int i=0;i<(int)count;i++){
 			//System.out.println(sha[i]);
 		}
@@ -57,10 +57,12 @@ public class Get {
 			//System.out.println(urls[i]);
 		}
 		reply = reply + "]";
-		//System.out.println(reply);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		Mongo.test(reply, count);
+		System.out.println("数値:"+count);
+		int intArray[] = new int[count+1];
+		intArray = Mongo.extractInt(reply, count,"Change");
+		for(int i=0;i<count;i++) System.out.println(intArray[i]);
 
 	}
 
@@ -70,7 +72,21 @@ public class Get {
 		String reply=http.apiGet(url);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		Mongo.test2(reply, count);
+		String strArray[] = new String[count*3+3];
+		strArray =Mongo.extractStr(reply, count,"Comment");
+		for(int i=0;i<count*3;i++) System.out.println("こめのｔ"+strArray[i]);
+
+	}
+
+	public static void getMember(String TEAM,String REPOS,
+			MongoCollection<Document> col1) throws Exception{
+		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/contributors";
+		String reply=http.apiGet(url);
+		Mongo.setDatabase1(col1, reply);
+		int count = Mongo.mongoCount(col1);
+		String strArray[] = new String[count*3+3];
+		strArray =Mongo.extractStr(reply, count,"Member");
+		for(int i=0;i<count;i++) System.out.println("メンバ"+strArray[i]);;
 
 	}
 }

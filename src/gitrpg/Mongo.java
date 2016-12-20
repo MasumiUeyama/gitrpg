@@ -107,7 +107,7 @@ public class Mongo {
 	}
 
 
-	public static String[] shaExtract(String doc,int i) throws Exception {
+	public static String[] extractSha(String doc,int i) throws Exception {
 		String regex = "comments, sha=........................................";
 		int count=0;
 		String strArray[] = new String[i+1];
@@ -122,9 +122,9 @@ public class Mongo {
 		return strArray;
 	}
 
-	public static void test (String reply,int j)throws Exception {
+	public static int[] extractInt (String reply,int j,String str)throws Exception {
 
-		String strArray[] = new String[j+1];
+		int intArray[] = new int[j*3+3];
 		//System.out.println("j:"+j);
 		//文字列データをオブジェクトに変換
 		JSONParser p = new JSONParser();
@@ -147,40 +147,52 @@ public class Mongo {
 		    //[]のやつのときはJson
 		    JSONObject t1 = (JSONObject)commit.get("stats");
 		    long doc1= (Long)t1.get("total");
-		    System.out.println("change:"+(int)doc1);
+		    //System.out.println("change:"+(int)doc1);
+		    intArray[i]=(int)doc1;
 		}
-		//return strArray;
+		return intArray;
 	}
 
-	public static void test2 (String reply,int j)throws Exception {
+	/**
+	 *
+    JSONObject t1 = (JSONObject)commit.get("commit");
+    JSONObject t2 = (JSONObject)t1.get("author");
+    strArray[i] = (String)t2.get("name");
+    System.out.println(strArray[i]);
+
+    JSONObject t1 = (JSONObject)commit.get("stats");
+    long doc1= (Long)t1.get("total");
+    intArray[i]=(int)doc1;
+	**/
+
+	public static String[] extractStr (String reply,int j,String str)throws Exception {
 
 		String strArray[] = new String[j*3+3];
 		//System.out.println("j:"+j);
 		//文字列データをオブジェクトに変換
 		JSONParser p = new JSONParser();
 		Object parsed = p.parse(reply);
-
+		int k=0;
 		//とってきたデータが配列のときはJSONArrayにキャストする
 		JSONArray array = (JSONArray)parsed;
-
 		for(int i=0; i<array.size(); i++){
-		    //JSONObjectにキャスト
-		    JSONObject commit = (JSONObject)array.get(i);
 
-		    //shaを取り出し
+			JSONObject commit = (JSONObject)array.get(i);
+			if(str=="Comment"){
 
-		    strArray[i] = (String)commit.get("created_at");
-		    System.out.println(strArray[i]);
+				strArray[k++] = (String)commit.get("created_at");
 
-		    JSONObject t1 = (JSONObject)commit.get("user");
-		    strArray[i] = (String)t1.get("login");
-		    System.out.println(strArray[i]);
+				JSONObject t1 = (JSONObject)commit.get("user");
+				strArray[k++] = (String)t1.get("login");
 
-		    strArray[i] = (String)commit.get("body");
-		    System.out.println(strArray[i]);
+				strArray[k++] = (String)commit.get("body");
+
+			} else if(str=="Member"){
+				strArray[k] = (String)commit.get("login");
+			}
 		}
-		//return strArray;
-	}
+	return strArray;
+}
 
 	public static int mongoCount(MongoCollection<Document> col){
 		long count = col.count();
