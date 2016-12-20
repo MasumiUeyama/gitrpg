@@ -25,7 +25,7 @@ public class Mongo {
 		Main.main();
 	}
 
-	public static void mongoSet1(MongoCollection<Document> col1,String reply) throws Exception {
+	public static void setDatabase1(MongoCollection<Document> col1,String reply) throws Exception {
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reply);
 		JSONArray json = (JSONArray)obj;
@@ -37,7 +37,7 @@ public class Mongo {
 		}
 	}
 
-	public static void mongoSet2(MongoCollection<Document> col1,String reply) throws Exception {
+	public static void setDatabase2(MongoCollection<Document> col1,String reply) throws Exception {
         JSONParser parser = new JSONParser();
         Object raw = parser.parse(reply);
         JSONArray data = (JSONArray)raw;
@@ -49,22 +49,22 @@ public class Mongo {
         }
 	}
 
-	public static void mongoDelete(MongoCollection<Document> col1) throws Exception {
+	public static void deleteDatabase(MongoCollection<Document> col1) throws Exception {
 		col1.deleteMany(new Document());
 	}
 
-	public static void mongoDelete(MongoCollection<Document> col1,MongoCollection<Document> col2) throws Exception {
+	public static void deleteDatabase(MongoCollection<Document> col1,MongoCollection<Document> col2) throws Exception {
 		col1.deleteMany(new Document());
 		col2.deleteMany(new Document());
 	}
 
-	public static void mongoDelete(MongoCollection<Document> col1,MongoCollection<Document> col2,MongoCollection<Document> col3) throws Exception {
+	public static void deleteDatabase(MongoCollection<Document> col1,MongoCollection<Document> col2,MongoCollection<Document> col3) throws Exception {
 		col1.deleteMany(new Document());
 		col2.deleteMany(new Document());
 		col3.deleteMany(new Document());
 	}
 
-	public static void mongoFltr(MongoCollection<Document> col1,MongoCollection<Document> col2,String key1,String key2) throws Exception {
+	public static void fltrDatabase(MongoCollection<Document> col1,MongoCollection<Document> col2,String key1,String key2) throws Exception {
 		BasicDBObject query = new BasicDBObject();
 		Document doc1;
 		query.put(key1, key2);
@@ -75,7 +75,7 @@ public class Mongo {
 		}
 	}
 
-	public static void mongoTime(MongoCollection<Document> col1,MongoCollection<Document> col2,String key,int DAY) throws Exception {
+	public static void getTime(MongoCollection<Document> col1,MongoCollection<Document> col2,String key,int DAY) throws Exception {
 		BasicDBObject query = new BasicDBObject();
 		Document doc1;
 		Calendar cal = Calendar.getInstance();
@@ -94,7 +94,7 @@ public class Mongo {
 		}
 	}
 
-	public static String mongoConvString(MongoCollection<Document> col1) throws Exception {
+	public static String convString(MongoCollection<Document> col1) throws Exception {
 		String doc="";
 		FindIterable<Document> iterator = col1.find();
 		MongoCursor<Document> cursor = iterator.iterator();
@@ -107,7 +107,7 @@ public class Mongo {
 	}
 
 
-	public static String[] mongoShaExtract(String doc,int i) throws Exception {
+	public static String[] shaExtract(String doc,int i) throws Exception {
 		String regex = "comments, sha=........................................";
 		int count=0;
 		String strArray[] = new String[i+1];

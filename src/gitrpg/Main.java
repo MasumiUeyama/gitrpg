@@ -21,13 +21,13 @@ public class Main {
 		MongoCollection<Document> col3 = database.getCollection("Commit3");
 		MongoCollection<Document> col4 = database.getCollection("changeGet1");
 		MongoCollection<Document> col5 = database.getCollection("commentGet1");
-		Mongo.mongoDelete(col1,col2,col3);
-		System.out.println("コミット数:"+Get.CommitsGet(team,repo,name,day,col1,col2,col3));
+		Mongo.deleteDatabase(col1,col2,col3);
+		System.out.println("コミット数:"+Get.getCommit(team,repo,name,day,col1,col2,col3));
 
-		String sha[] = Get.shaGet(col3,Mongo.mongoCount(col3));
+		String sha[] = Get.getSha(col3,Mongo.mongoCount(col3));
 
 		//Get.changeGet(team,repo,sha,col4);
-		Get.commentGet(team,repo,col4);
+		Get.getComment(team,repo,col4);
 		mongoClient.close();
 	}
 }

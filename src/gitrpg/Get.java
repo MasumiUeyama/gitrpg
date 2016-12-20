@@ -15,7 +15,7 @@ public class Get {
 		Main.main();
 	}
 
-	public static int CommitsGet(String TEAM,String REPOS,String NAME,int DAY,
+	public static int getCommit(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1,
 			MongoCollection<Document> col2,
 			MongoCollection<Document> col3) throws Exception {
@@ -25,10 +25,10 @@ public class Get {
 		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		String b = "\"},\"committer\":";
 		reply = reply.replaceAll(a,b);
-		Mongo.mongoSet1(col1, reply);
+		Mongo.setDatabase1(col1, reply);
 
-		Mongo.mongoFltr(col1,col2,"commit.author.name",NAME);
-		Mongo.mongoTime(col2,col3,"commit.author.date",DAY);
+		Mongo.fltrDatabase(col1,col2,"commit.author.name",NAME);
+		Mongo.getTime(col2,col3,"commit.author.date",DAY);
 		int count = Mongo.mongoCount(col3);
 
 		return  count;
@@ -36,8 +36,8 @@ public class Get {
 
 
 
-	public static String[] shaGet(MongoCollection<Document> col,int count) throws Exception {
-		String sha[]=Mongo.mongoShaExtract(Mongo.mongoConvString(col),(int)count);
+	public static String[] getSha(MongoCollection<Document> col,int count) throws Exception {
+		String sha[]=Mongo.shaExtract(Mongo.convString(col),(int)count);
 		for(int i=0;i<(int)count;i++){
 			//System.out.println(sha[i]);
 		}
@@ -45,7 +45,7 @@ public class Get {
 		return sha;
 	}
 
-	public static void changeGet(String TEAM,String REPOS,String sha[],
+	public static void getChange(String TEAM,String REPOS,String sha[],
 			MongoCollection<Document> col1) throws Exception {
 
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
@@ -58,17 +58,17 @@ public class Get {
 		}
 		reply = reply + "]";
 		//System.out.println(reply);
-		Mongo.mongoSet1(col1, reply);
+		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
 		Mongo.test(reply, count);
 
 	}
 
-	public static void commentGet(String TEAM,String REPOS,
+	public static void getComment(String TEAM,String REPOS,
 			MongoCollection<Document> col1) throws Exception{
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
 		String reply=http.apiGet(url);
-		Mongo.mongoSet1(col1, reply);
+		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
 		Mongo.test2(reply, count);
 
