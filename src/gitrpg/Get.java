@@ -72,7 +72,7 @@ public class Get {
 		String reply=http.apiGet(url);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		String strArray[] = new String[count*3+3];
+		String strArray[] = new String[count*3];
 		strArray =Mongo.extractStr(reply, count,"Comment");
 		for(int i=0;i<count*3;i++) System.out.println("こめのｔ"+strArray[i]);
 
@@ -89,4 +89,9 @@ public class Get {
 		for(int i=0;i<count;i++) System.out.println("メンバ"+strArray[i]);;
 
 	}
+
+    public static String helloWorld(String name){
+    	return name + ":HelloWorld";
+
+    }
 }

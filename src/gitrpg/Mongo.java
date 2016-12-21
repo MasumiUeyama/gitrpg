@@ -168,7 +168,7 @@ public class Mongo {
 	public static String[] extractStr (String reply,int j,String str)throws Exception {
 
 		String strArray[] = new String[j*3+3];
-		//System.out.println("j:"+j);
+		System.out.println(reply);
 		//文字列データをオブジェクトに変換
 		JSONParser p = new JSONParser();
 		Object parsed = p.parse(reply);
@@ -191,6 +191,7 @@ public class Mongo {
 				strArray[k] = (String)commit.get("login");
 			}
 		}
+		System.out.println("でけた");
 	return strArray;
 }
 
