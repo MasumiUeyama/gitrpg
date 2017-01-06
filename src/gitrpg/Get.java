@@ -45,7 +45,6 @@ public class Get {
 
 		    JSONObject t1,t2,t3;
 
-
 		    strArray[k++] = (String)commit.get("sha");
 		    String sha=strArray[k-1];
 		    t1 = (JSONObject)commit.get("commit");
@@ -92,7 +91,7 @@ public class Get {
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
 			json.put("name", doc.getString("name"));
-			json.put("change", doc.getString("change"));
+			json.put("change", Integer.parseInt(doc.getString("change")));
 			result.add(json);
 
 			System.out.println("名前: " + doc.getString("change"));

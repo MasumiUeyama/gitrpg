@@ -13,7 +13,7 @@ public class Main {
 	static String team = "igakilab";
 	static String repo = "gitrpg";
 	static String name ="MasumiUeyama";
-	static int day = 3399;
+	static int day = 2;
 
 	public static int main() throws Exception{
 
