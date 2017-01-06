@@ -5,12 +5,21 @@
     "http://getahead.org/dwr//dwr30.dtd">
 
 <dwr>
-  <allow>
-    <create creator="new" javascript="gitrpg">
-      <param name="class" value="gitrpg.Mongo"/>
-    </create>
-    <convert converter="bean" match="gitrpg.*" />
-    <convert converter="exception" match="java.lang.Exception" />
-    <convert converter="bean" match="java.lang.StackTraceElement"/>
-  </allow>
+	<allow>
+		<create creator="new" javascript="gitrpg">
+			<param name="class" value="gitrpg.Mongo" />
+		</create>
+		<create creator="new" javascript="main">
+			<param name="class" value="gitrpg.Main" />
+		</create>
+		<create creator="new" javascript="get">
+			<param name="class" value="gitrpg.Get" />
+		</create>
+		<create creator="new" javascript="http">
+			<param name="class" value="gitrpg.http" />
+		</create>
+		<convert converter="bean" match="gitrpg.*" />
+		<convert converter="exception" match="java.lang.Exception" />
+		<convert converter="bean" match="java.lang.StackTraceElement" />
+	</allow>
 </dwr>
