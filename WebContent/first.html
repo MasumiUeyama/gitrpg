@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<TITLE>```‚Ìƒz[ƒ€ƒy[ƒW</TITLE>
+<TITLE>ï½ï½ï½ã®ãƒ›ãƒ¼ãƒ ãƒšãƒ¼ã‚¸</TITLE>
 
 	<style>
 
@@ -20,87 +20,126 @@
 	p.resizeimage img { width: 100%;}
 	</style>
 
+	<script type="text/javascript" src="dwr/engine.js"></script>
+    <script type="text/javascript" src="dwr/util.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="dwr/interface/main.js"></script>
 
 </HEAD>
 <BODY>
 
 
-<CENTER>ƒz[ƒ€ƒy[ƒW‚ªo—ˆ‚Ü‚µ‚½</CENTER><BR>
+<CENTER>ãƒ›ãƒ¼ãƒ ãƒšãƒ¼ã‚¸ãŒå‡ºæ¥ã¾ã—ãŸ<span class="commitCount"></span></CENTER><BR>
 
 
 <p class="resizeimage">
 <div style="vertical-align: middle">
-<img src = "dog1.png" width="450" height="300" border="5"> 
+<img src = "dog1.png" width="450" height="300" border="5">
 </p>
 
-<!--ƒQ[ƒW‚Ìì¬@value‚Ì’l‚ğŒˆ‚Ü‚Á‚½ƒ‹[ƒ‹‚É‡‚í‚¹‚Ä--><!--ƒRƒƒ“ƒg-->
+<!--ã‚²ãƒ¼ã‚¸ã®ä½œæˆ valueã®å€¤ã‚’æ±ºã¾ã£ãŸãƒ«ãƒ¼ãƒ«ã«åˆã‚ã›ã¦--><!--ã‚³ãƒ¡ãƒ³ãƒˆ-->
 
-<div style="position: absolute; top:110; left:520; width:5; height:100; z-index: 1">‘Ì—Í
+<div style="position: absolute; top:110; left:520; width:5; height:100; z-index: 1">ä½“åŠ›
 </div>
 <div style="position: absolute; top:110; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9825</FONT>
 </div>
 
-<div style="position: absolute; top:190; left:520; width:5; height:100; z-index: 1">ŒoŒ±’l
+<div style="position: absolute; top:190; left:520; width:5; height:100; z-index: 1">çµŒé¨“å€¤
 </div>
 <div style="position: absolute; top:200; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9734</FONT>
 </div>
 
-<div style="position: absolute; top:290; left:520; width:5; height:100; z-index: 1">–‚—Í
+<div style="position: absolute; top:290; left:520; width:5; height:100; z-index: 1">é­”åŠ›
 </div>
 <div style="position: absolute; top:290; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9834</FONT>
 </div>
 
 
 <div style="position: absolute; top:120; left:600; width:5; height:100; z-index: 1">
-<meter max="100" low="20" high="60" value="10">10%</meter><br><br><br><br><br>
-<!--‘Ì—Í@ƒ^ƒXƒN‚ªI‚í‚Á‚Ä‚¢‚È‚¢‚ÆŒ¸‚éd‘g‚İ--><!--ƒRƒƒ“ƒg-->
+<meter id="hpMeter" max="100" low="20" high="60" value="10">10%</meter><br><br><br><br><br>
+<!--ä½“åŠ› ã‚¿ã‚¹ã‚¯ãŒçµ‚ã‚ã£ã¦ã„ãªã„ã¨æ¸›ã‚‹ä»•çµ„ã¿--><!--ã‚³ãƒ¡ãƒ³ãƒˆ-->
 <meter max="100" low="20" high="60" value="50">50%</meter><br><br><br><br><br>
-<!--ŒoŒ±’l@ƒRƒ~ƒbƒg”@ãŒÀ‚Ü‚Ås‚Á‚½‚çƒŒƒxƒ‹ƒAƒbƒv--><!--ƒRƒƒ“ƒg-->
+<!--ï¿½oï¿½ï¿½ï¿½lï¿½@ï¿½Rï¿½~ï¿½bï¿½gï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½ï¿½Ü‚Åsï¿½ï¿½ï¿½ï¿½ï¿½çƒŒï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½v--><!--ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g-->
 <meter max="100" low="20" high="60" value="90">80%</meter><br>
-<!--–‚—Í@ƒLƒƒƒ‰ƒNƒ^[‚É‚æ‚Á‚ÄŒÅ’è@ƒŒƒxƒ‹‚ªã‚ª‚ê‚ÎãŒÀ’lã¸--><!--ƒRƒƒ“ƒg-->
+<!--ï¿½ï¿½ï¿½Í@ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½É‚ï¿½ï¿½ï¿½ÄŒÅ’ï¿½@ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ã‚ªï¿½ï¿½Îï¿½ï¿½ï¿½lï¿½ã¸--><!--ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½g-->
 
 </div>
 
 
 </div><br>
 
-<div style="position: absolute; top:70; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">‘Îí
+<div style="position: absolute; top:70; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">ï¿½Îï¿½
 </div><br>
 
-<div style="position: absolute; top:120; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;height:100px">A‚­‚ñ
-</div><br>
-
-
-<div style="position: absolute; top:455; left:30;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;"><center>ƒ^ƒXƒN</center>
+<div style="position: absolute; top:120; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;height:100px">Aï¿½ï¿½ï¿½ï¿½
 </div><br>
 
 
-<div style="position: absolute; top:510; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">A‚­‚ñ
-</div><br>
-
-<div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">B‚­‚ñ
-</div><br>
-
-<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">C‚­‚ñ
+<div style="position: absolute; top:455; left:30;border-style: solid ; border-width: 1px;border-color: black;width: 200px;padding: 10px 10px 10px 10px;">ã‚³ãƒŸãƒƒãƒˆæ•°=<span class="commitCount"></span>
 </div><br>
 
 
-
-
-<div style="position: absolute; top:455; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">•]‰¿
+<div style="position: absolute; top:510; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Aï¿½ï¿½ï¿½ï¿½
 </div><br>
 
-<div style="position: absolute; top:510; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">A‚­‚ñ
+<div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Bï¿½ï¿½ï¿½ï¿½
 </div><br>
 
-<div style="position: absolute; top:565; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">B‚­‚ñ
-</div><br>
-
-<div style="position: absolute; top:615; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">C‚­‚ñ
+<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Cï¿½ï¿½ï¿½ï¿½
 </div><br>
 
 
 
+
+<div style="position: absolute; top:455; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">ï¿½]ï¿½ï¿½
+</div><br>
+
+<div style="position: absolute; top:510; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Aï¿½ï¿½ï¿½ï¿½
+</div><br>
+
+<div style="position: absolute; top:565; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Bï¿½ï¿½ï¿½ï¿½
+</div><br>
+
+<div style="position: absolute; top:615; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">Cï¿½ï¿½ï¿½ï¿½
+</div><br>
+
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+    	commit();
+    });
+
+  	function commit(){
+  		main.main({
+  			callback: function(data){
+  				$(".commitCount").text(data);
+  				$("#hpMeter").attr("value", data*10);
+  			}
+  		});
+  	}
+
+/*       function update(){
+        var formData = $('#csprinter_form').serializeJson();
+        getCommit.execute(formData, {
+          callback: function(data) {
+            $('#csprinterReply').text(data);
+            $('#error_message').text("");
+          },
+          errorHandler: updateErrorMessage
+        });
+      }
+      function updateErrorMessage(message, exception){
+        $('#error_message').text(message);
+        $('#csprinterReply').text("");
+      }
+
+      var reply = function(data)
+      {
+        if (data != null && typeof data == 'object') alert(dwr.util.toDescriptiveString(data, 2));
+        else dwr.util.setValue('d2', dwr.util.toDescriptiveString(data, 1));
+      } */
+    </script>
 
 
 
