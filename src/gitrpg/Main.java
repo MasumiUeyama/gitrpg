@@ -11,7 +11,7 @@ public class Main {
 	static String team = "igakilab";
 	static String repo = "gitrpg";
 	static String name ="MasumiUeyama";
-	static int day = 30;
+	static int day = 3;
 
 	public static int main() throws Exception{
 
@@ -34,6 +34,7 @@ public class Main {
 		//Get.getComment(team,repo,col5);
 		//Get.getMember(team,repo,col6);
 		int i = Get.getCommit(team,repo,name,day,col1,col2,col3);
+		System.out.println(i);
 		mongoClient.close();
 		return i;
 	}

@@ -21,12 +21,13 @@ public class Get {
 			MongoCollection<Document> col3) throws Exception {
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
 		String reply=http.apiGet(url);
-
 		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		String b = "\"},\"committer\":";
 		reply = reply.replaceAll(a,b);
 		Mongo.setDatabase1(col1, reply);
-
+		int count2 = Mongo.mongoCount(col1);
+		System.out.println(reply);
+		System.out.println(count2);
 		Mongo.fltrDatabase(col1,col2,"commit.author.name",NAME);
 		Mongo.getTime(col2,col3,"commit.author.date",DAY);
 		int count = Mongo.mongoCount(col3);
