@@ -43,7 +43,7 @@ public class Main {
 
 		String a = Get.getPhoto("MasumiUeyama");
 		System.out.println(a);
-		//Get.getCommit2(team, repo,name,day, col7);
+		Get.getCommit2(team, repo,name,day, col7);
 		mongoClient.close();
 		int i=0;
 		return i;
