@@ -25,6 +25,7 @@
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.serialize.js"></script>
     <script type="text/javascript" src="dwr/interface/main.js"></script>
+    <script type="text/javascript" src="dwr/interface/get.js"></script>
 
 </HEAD>
 <BODY>
@@ -35,7 +36,7 @@
 
 <p class="resizeimage">
 <div style="vertical-align: middle">
-<img src = "dog1.png" width="450" height="300" border="5">
+<img class="getPhoto" border="1" src="" width="300" height="300">
 </p>
 
 <!--ゲージの作成 valueの値を決まったルールに合わせて--><!--コメント-->
@@ -69,10 +70,10 @@
 
 </div><br>
 
-<div style="position: absolute; top:70; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">�ΐ�
+<div style="position: absolute; top:70; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">対戦
 </div><br>
 
-<div style="position: absolute; top:120; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;height:100px">A����
+<div style="position: absolute; top:120; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;height:100px">
 </div><br>
 
 
@@ -80,13 +81,13 @@
 </div><br>
 
 
-<div style="position: absolute; top:510; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">A����
+<div style="position: absolute; top:510; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">コミット数 = <span class="commitCount"></span>
 </div><br>
 
-<div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">B����
+<div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">コメント数 = <span class="countComment"></span>
 </div><br>
 
-<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">C����
+<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">実装行数
 </div><br>
 
 
@@ -118,6 +119,40 @@
   			}
   		});
   	}
+
+    $(document).ready(function(){
+    	countComment();
+    });
+
+  	function countComment(){
+  		main.main({
+  			callback: function(data){
+  				$(".countComment").text(data);
+  			}
+  		});
+  	}
+
+  	function getChange(){
+  		main.main({
+  			callback: function(data){
+  				$(".getChange").text(data);
+  			}
+  		});
+  	}
+
+    $(document).ready(function(){
+    	getPhoto();
+    });
+
+    var user = "aoki-tha";
+  	function getPhoto(){
+  		get.getPhoto(user, {
+  			callback: function(data){
+  				$(".getPhoto").attr("src", data);
+  			}
+  		});
+  	}
+
 
 /*       function update(){
         var formData = $('#csprinter_form').serializeJson();
