@@ -21,6 +21,16 @@ public class Get {
 	}
 
 
+	public static int countComment(String name) throws Exception{
+		int a=0;
+		return a;
+	}
+
+	public static int getChange(String name) throws Exception{
+		int a=0;
+		return a;
+	}
+
 	public static String getPhoto(String name) throws Exception{
 		String url = "https://api.github.com/users/" + name;
 		String reply="["+http.apiGet(url)+"]";
@@ -107,7 +117,8 @@ public class Get {
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
 			json.put("name", doc.getString("name"));
-			json.put("change", Integer.parseInt(doc.getString("change")));
+			json.put("change", doc.getString("change"));
+			//json.put("change", Integer.parseInt(doc.getString("change")));
 			result.add(json);
 
 			System.out.println("名前: " + doc.getString("change"));
