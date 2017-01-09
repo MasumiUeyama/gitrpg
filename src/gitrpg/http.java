@@ -23,9 +23,11 @@ public class http {
 			try {
 				connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
+				connection.setRequestProperty("Authorization", "token adff2e4659a7550c3ca992de3c939fd966be08e5");
 
 				int c = 0;
 				if ( (c = connection.getResponseCode()) == HttpURLConnection.HTTP_OK) {
+					System.out.println("残り回数: " + connection.getHeaderField("X-RateLimit-Remaining"));
 					try (InputStreamReader isr = new InputStreamReader(connection.getInputStream(),
 							StandardCharsets.UTF_8);
 							BufferedReader reader = new BufferedReader(isr)) {
