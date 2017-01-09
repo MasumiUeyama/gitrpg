@@ -20,6 +20,22 @@ public class Get {
 		Main.main();
 	}
 
+
+	public static String getPhoto(String name) throws Exception{
+		String url = "https://api.github.com/users/" + name;
+		String reply="["+http.apiGet(url)+"]";
+		String avatar ="";
+		JSONParser p = new JSONParser();
+		Object parsed = p.parse(reply);
+		JSONArray array = (JSONArray)parsed;
+
+		for(int i=0; i<array.size(); i++){
+		    JSONObject commit = (JSONObject)array.get(i);
+		    avatar = (String)commit.get("avatar_url");
+		}
+		return avatar;
+	}
+
 	public static List<CommitData> getCommit2(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1) throws Exception {
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
@@ -57,8 +73,8 @@ public class Get {
 
 		    String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
 
-		    strArray[k++] =String.valueOf(getChange2(changeurl));
-		    //strArray[k++] = "仮change";
+		    //strArray[k++] =String.valueOf(getChange2(changeurl));
+		    strArray[k++] = "仮change";
 
 		    t1 = (JSONObject)commit.get("commit");
 		    strArray[k++] = (String)t1.get("message");

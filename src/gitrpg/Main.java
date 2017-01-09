@@ -27,9 +27,10 @@ public class Main {
 		MongoCollection<Document> col5 = database.getCollection("commentGet1");
 		MongoCollection<Document> col6 = database.getCollection("commentGet1");
 		MongoCollection<Document> col7 = database.getCollection("Commit");
+		MongoCollection<Document> col8 = database.getCollection("Comment");
 		Mongo.deleteDatabase(col1,col2,col3);
 		Mongo.deleteDatabase(col4,col5,col6);
-		Mongo.deleteDatabase(col7);
+		Mongo.deleteDatabase(col7,col8);
 		//System.out.println("コミット数:"+Get.getCommit(team,repo,name,day,col1,col2,col3));
 
 		//String sha[] = Get.getSha(col3,Mongo.mongoCount(col3));
@@ -40,8 +41,9 @@ public class Main {
 		//int i = Get.getCommit(team,repo,name,day,col1,col2,col3);
 		//System.out.println(i);
 
-
-		Get.getCommit2(team, repo,name,day, col7);
+		String a = Get.getPhoto("MasumiUeyama");
+		System.out.println(a);
+		//Get.getCommit2(team, repo,name,day, col7);
 		mongoClient.close();
 		int i=0;
 		return i;
