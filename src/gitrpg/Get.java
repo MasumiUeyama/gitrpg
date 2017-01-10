@@ -50,6 +50,75 @@ public class Get {
 		return avatar;
 	}
 
+	public static void getComment(String TEAM,String REPOS,
+			MongoCollection<Document> col1) throws Exception {
+		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
+		String reply=http.apiGet(url);
+		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
+		String b = "\"},\"committer\":";
+		reply = reply.replaceAll(a,b);
+
+		Mongo.setDatabase1(col1, reply);
+		int count = Mongo.mongoCount(col1);
+		String strArray[] = new String[count*5+1];
+
+		JSONParser p = new JSONParser();
+		Object parsed = p.parse(reply);
+
+		//とってきたデータが配列のときはJSONArrayにキャストする
+		JSONArray array = (JSONArray)parsed;
+
+		int k=0;
+		for(int i=0; i<array.size(); i++){
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
+
+			JSONObject t1;
+
+			strArray[k] = (String)commit.get("created_at");
+			int su=strArray[k].length();
+			strArray[k] = strArray[k].substring(0,su-1);
+			k++;
+
+			t1 = (JSONObject)commit.get("user");
+			strArray[k++] = (String)t1.get("login");
+
+			strArray[k++] = (String)commit.get("body");
+
+		}
+		Mongo.deleteDatabase(col1);
+
+		int m=0;
+
+		for(int j=0; j<array.size(); j++){
+			Document doc = new Document();
+			doc.append("created_at",strArray[m++]);
+			doc.append("login",strArray[m++]);
+			doc.append("body",strArray[m++]);
+			col1.insertOne(doc);
+		}
+
+		//List<CommitData> result = new ArrayList<>();
+
+		/*			CommitData data = new CommitData();
+		data.setName(doc.getString("name"));
+		data.setChange(doc.getString("change"));*/
+
+
+//		JSONArray result = new JSONArray();
+//
+//		for(Document doc : col1.find()){
+//			//String json = doc.toJson();
+//			JSONObject json = new JSONObject();
+//			json.put("name", doc.getString("name"));
+//			json.put("change", Integer.parseInt(doc.getString("change")));
+//			result.add(json);
+//
+//			System.out.println("名前: " + doc.getString("change"));
+//
+//		}
+//		System.out.println(result.toJSONString());
+	}
 
 
 
