@@ -35,8 +35,11 @@
 
 
 <p class="resizeimage">
+
+<div style="position: absolute;left:30;>
 <div style="vertical-align: middle">
-<img class="getPhoto" border="1" src="" width="300" height="300">
+<img class="getPhoto" border="1" src="" width="400" height="350">
+<div>
 </p>
 
 <!--ゲージの作成 valueの値を決まったルールに合わせて--><!--コメント-->
@@ -87,7 +90,7 @@
 <div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">コメント数 = <span class="countComment"></span>
 </div><br>
 
-<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">実装行数
+<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">実装行数 = <span class="getChange2"></span>
 </div><br>
 
 
@@ -107,7 +110,20 @@
 
 
   <script type="text/javascript">
+    var user;
+    var repo;
+    var place;
+
     $(document).ready(function(){
+    	var arg = new Object;
+    	var pair=location.search.substring(1).split('&');
+    	for(var i=0;pair[i];i++) {
+    	    var kv = pair[i].split('=');
+    	    arg[kv[0]]=kv[1];
+    	}
+    	user = arg.user;
+    	repo = arg.repo;
+    	place =arg.place;
     	commit();
     });
 
@@ -125,17 +141,22 @@
     });
 
   	function countComment(){
-  		main.main({
+  		get.countComment(user,{
   			callback: function(data){
   				$(".countComment").text(data);
   			}
   		});
   	}
 
-  	function getChange(){
-  		main.main({
+    $(document).ready(function(){
+    	getChange2();
+    });
+
+  	function getChange2(){
+  		get.getChange2(user,{
   			callback: function(data){
-  				$(".getChange").text(data);
+  /*				console.log(data);*/
+  				$(".getChange2").text(data);
   			}
   		});
   	}
@@ -144,7 +165,6 @@
     	getPhoto();
     });
 
-    var user = "aoki-tha";
   	function getPhoto(){
   		get.getPhoto(user, {
   			callback: function(data){
