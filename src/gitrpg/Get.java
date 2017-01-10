@@ -1,13 +1,17 @@
 package gitrpg;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 
 /**
  * DWRでJSから呼ばれるメソッドはすべてpublicでなければならない．また，必要なクラスはすべてdwr.xmlに定義されている必要がある．
@@ -46,6 +50,95 @@ public class Get {
 		return avatar;
 	}
 
+
+
+
+	public static void getBranch(String NAME,
+			MongoCollection<Document> col1,
+			MongoCollection<Document> col2) throws Exception {
+		String doc = "";
+		Map<String, Object> map = new HashMap<String, Object>(){
+		    {put("login", NAME);}
+		    {put("id", "CreateEvent");}
+		};
+		Document query = new Document(map);
+		System.out.println(map);
+		FindIterable<Document> iterator = col1.find(query);
+		MongoCursor cursor = iterator.iterator();
+
+		while(cursor.hasNext()){
+		     doc += cursor.next();
+		     doc += System.getProperty("line.separator");
+		}
+
+		System.out.println(doc);
+	}
+
+	public static void getEvent(String TEAM,String REPOS,String NAME,int DAY,
+			MongoCollection<Document> col1) throws Exception {
+
+		String url="https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page=1";
+		int page = 1;
+		String reply=http.apiGet(url);
+		String replys[] = new String[11];
+		String next="";
+		String end="[]";
+		int su = 0;
+		page++;
+		url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
+		replys[page]=http.apiGet(url);
+		if(replys[page].equals(end)) {
+		}else {
+			su=reply.length();
+			reply = reply.substring(0,su-1);
+		}
+		while(page!=3){
+			url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
+			replys[page]=http.apiGet(url);
+			if(replys[page].equals(end)) break;
+
+			su=replys[page].length();
+			replys[page] = replys[page].substring(1,su-1);
+			reply=reply+replys[page];
+			page++;
+		}
+		reply = reply + "]";
+
+		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
+		String b = "\"},\"committer\":";
+		//reply = reply.replaceAll(a,b);
+		Mongo.setDatabase1(col1, reply);
+		int count = Mongo.mongoCount(col1);
+		String strArray[] = new String[count*2+1];
+
+		JSONParser p = new JSONParser();
+		Object parsed = p.parse(reply);
+		JSONArray array = (JSONArray)parsed;
+
+		int k=0;
+		for(int i=0; i<array.size(); i++){
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
+
+			JSONObject t1,t2,t3;
+
+			strArray[k++] = (String)commit.get("type");
+			t1 = (JSONObject)commit.get("actor");
+			strArray[k++] = (String)t1.get("login");
+
+		}
+		Mongo.deleteDatabase(col1);
+
+		int m=0;
+
+		for(int j=0; j<array.size(); j++){
+			Document doc = new Document();
+			doc.append("id",strArray[m++]);
+			doc.append("login",strArray[m++]);
+			col1.insertOne(doc);
+		}
+
+	}
 	public static List<CommitData> getCommit2(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1) throws Exception {
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
@@ -66,28 +159,28 @@ public class Get {
 
 		int k=0;
 		for(int i=0; i<array.size(); i++){
-		    //JSONObjectにキャスト
-		    JSONObject commit = (JSONObject)array.get(i);
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
 
-		    JSONObject t1,t2,t3;
+			JSONObject t1,t2,t3;
 
-		    strArray[k++] = (String)commit.get("sha");
-		    String sha=strArray[k-1];
-		    t1 = (JSONObject)commit.get("commit");
-		    t2 = (JSONObject)t1.get("author");
-		    strArray[k++] = (String)t2.get("name");
+			strArray[k++] = (String)commit.get("sha");
+			String sha=strArray[k-1];
+			t1 = (JSONObject)commit.get("commit");
+			t2 = (JSONObject)t1.get("author");
+			strArray[k++] = (String)t2.get("name");
 
-		    t1 = (JSONObject)commit.get("commit");
-		    t2 = (JSONObject)t1.get("author");
-		    strArray[k++] = (String)t2.get("date");
+			t1 = (JSONObject)commit.get("commit");
+			t2 = (JSONObject)t1.get("author");
+			strArray[k++] = (String)t2.get("date");
 
-		    String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
+			String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
 
-		    //strArray[k++] =String.valueOf(getChange2(changeurl));
-		    strArray[k++] = "仮change";
+			strArray[k++] =String.valueOf(getChange2(changeurl));
+			//strArray[k++] = "仮change";
 
-		    t1 = (JSONObject)commit.get("commit");
-		    strArray[k++] = (String)t1.get("message");
+			t1 = (JSONObject)commit.get("commit");
+			strArray[k++] = (String)t1.get("message");
 		}
 		Mongo.deleteDatabase(col1);
 
@@ -101,7 +194,6 @@ public class Get {
 			doc.append("change",strArray[m++]);
 			doc.append("message",strArray[m++]);
 			col1.insertOne(doc);
-
 		}
 
 		//List<CommitData> result = new ArrayList<>();
@@ -117,8 +209,7 @@ public class Get {
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
 			json.put("name", doc.getString("name"));
-			json.put("change", doc.getString("change"));
-			//json.put("change", Integer.parseInt(doc.getString("change")));
+			json.put("change", Integer.parseInt(doc.getString("change")));
 			result.add(json);
 
 			System.out.println("名前: " + doc.getString("change"));
@@ -136,25 +227,23 @@ public class Get {
 		Object parsed = p.parse(reply);
 		JSONArray array = (JSONArray)parsed;
 		for(int i=0; i<array.size(); i++){
-		    //JSONObjectにキャスト
-		    JSONObject commit = (JSONObject)array.get(i);
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
 
-		    //shaを取り出し
+			//shaを取り出し
 
-		    //JSONObject t1 = (JSONObject)commit.get("commit");
-		    //JSONObject t2 = (JSONObject)t1.get("author");
-		    //strArray[i] = (String)t2.get("name");
-		    //System.out.println(strArray[i]);
+			//JSONObject t1 = (JSONObject)commit.get("commit");
+			//JSONObject t2 = (JSONObject)t1.get("author");
+			//strArray[i] = (String)t2.get("name");
+			//System.out.println(strArray[i]);
 
-		    //[]のやつのときはJson
-		    JSONObject t1 = (JSONObject)commit.get("stats");
-		    long doc1= (Long)t1.get("total");
-		    j=(int)doc1;
+			//[]のやつのときはJson
+			JSONObject t1 = (JSONObject)commit.get("stats");
+			long doc1= (Long)t1.get("total");
+			j=(int)doc1;
 		}
 		return j;
 	}
-
-
 
 
 	public static int getCommit(String TEAM,String REPOS,String NAME,int DAY,
@@ -209,17 +298,17 @@ public class Get {
 
 	}
 
-	public static void getComment(String TEAM,String REPOS,
-			MongoCollection<Document> col1) throws Exception{
-		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
-		String reply=http.apiGet(url);
-		Mongo.setDatabase1(col1, reply);
-		int count = Mongo.mongoCount(col1);
-		String strArray[] = new String[count*3];
-		strArray =Mongo.extractStr(reply, count,"Comment");
-		for(int i=0;i<count*3;i++) System.out.println("こめのｔ"+strArray[i]);
-
-	}
+//	public static void getComment(String TEAM,String REPOS,
+//			MongoCollection<Document> col1) throws Exception{
+//		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
+//		String reply=http.apiGet(url);
+//		Mongo.setDatabase1(col1, reply);
+//		int count = Mongo.mongoCount(col1);
+//		String strArray[] = new String[count*3];
+//		strArray =Mongo.extractStr(reply, count,"Comment");
+//		for(int i=0;i<count*3;i++) System.out.println("こめのｔ"+strArray[i]);
+//
+//	}
 
 	public static void getMember(String TEAM,String REPOS,
 			MongoCollection<Document> col1) throws Exception{
