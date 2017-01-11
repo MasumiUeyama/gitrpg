@@ -1,17 +1,13 @@
 package gitrpg;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 
 /**
  * DWRでJSから呼ばれるメソッドはすべてpublicでなければならない．また，必要なクラスはすべてdwr.xmlに定義されている必要がある．
@@ -125,22 +121,18 @@ public class Get {
 	public static void getBranch(String NAME,
 			MongoCollection<Document> col1,
 			MongoCollection<Document> col2) throws Exception {
-		String doc = "";
-		Map<String, Object> map = new HashMap<String, Object>(){
-		    {put("login", NAME);}
-		    {put("id", "CreateEvent");}
-		};
-		Document query = new Document(map);
-		System.out.println(map);
-		FindIterable<Document> iterator = col1.find(query);
-		MongoCursor cursor = iterator.iterator();
 
-		while(cursor.hasNext()){
-		     doc += cursor.next();
-		     doc += System.getProperty("line.separator");
+		JSONArray result = new JSONArray();
+
+		for(Document doc : col1.find()){
+			JSONObject json = new JSONObject();
+			//json.put("id", doc.getString("id"));
+			json.put("name", doc.getString("login"));
+			json.put("branch", doc.getString("ref"));
+			if(doc.getString("id").equals("CreateEvent")) result.add(json);
 		}
+		Mongo.setDatabase1(col2, result.toJSONString());
 
-		System.out.println(doc);
 	}
 
 	public static void getEvent(String TEAM,String REPOS,String NAME,int DAY,
@@ -161,7 +153,7 @@ public class Get {
 			su=reply.length();
 			reply = reply.substring(0,su-1);
 		}
-		while(page!=3){
+		while(page!=10){
 			url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
 			replys[page]=http.apiGet(url);
 			if(replys[page].equals(end)) break;
@@ -178,7 +170,7 @@ public class Get {
 		//reply = reply.replaceAll(a,b);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		String strArray[] = new String[count*2+1];
+		String strArray[] = new String[count*3+1];
 
 		JSONParser p = new JSONParser();
 		Object parsed = p.parse(reply);
@@ -194,6 +186,8 @@ public class Get {
 			strArray[k++] = (String)commit.get("type");
 			t1 = (JSONObject)commit.get("actor");
 			strArray[k++] = (String)t1.get("login");
+			t1 = (JSONObject)commit.get("payload");
+			strArray[k++] = (String)t1.get("ref");
 
 		}
 		Mongo.deleteDatabase(col1);
@@ -204,6 +198,7 @@ public class Get {
 			Document doc = new Document();
 			doc.append("id",strArray[m++]);
 			doc.append("login",strArray[m++]);
+			doc.append("ref",strArray[m++]);
 			col1.insertOne(doc);
 		}
 

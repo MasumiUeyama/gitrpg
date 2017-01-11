@@ -11,8 +11,8 @@ import com.mongodb.client.MongoDatabase;
 public class Main {
 
 	static String team = "igakilab";
-	static String repo = "gitrpg";
-	static String name ="MasumiUeyama";
+	static String repo = "tasks-monitor";
+	static String name ="koike-marshmallow";
 	static int day = 2;
 
 	public static int main() throws Exception{
@@ -29,9 +29,11 @@ public class Main {
 		MongoCollection<Document> col7 = database.getCollection("Commit");
 		MongoCollection<Document> col8 = database.getCollection("Commentdas");
 		MongoCollection<Document> col9 = database.getCollection("Event");
+		MongoCollection<Document> col10 = database.getCollection("Branch");
 		Mongo.deleteDatabase(col1,col2,col3);
 		Mongo.deleteDatabase(col4,col5,col6);
 		Mongo.deleteDatabase(col7,col8,col9);
+		Mongo.deleteDatabase(col10,col8,col9);
 		//System.out.println("コミット数:"+Get.getCommit(team,repo,name,day,col1,col2,col3));
 
 		//String sha[] = Get.getSha(col3,Mongo.mongoCount(col3));
@@ -45,7 +47,8 @@ public class Main {
 		//String a = Get.getPhoto("MasumiUeyama");
 		//System.out.println(a);
 		//Get.getCommit2(team, repo,name,day, col7);
-		//Get.getEvent(team, repo,name,day,col9);
+		Get.getEvent(team, repo,name,day,col9);
+		Get.getBranch(name, col9, col10);
 
 		mongoClient.close();
 		int i=0;

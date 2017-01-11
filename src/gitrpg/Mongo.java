@@ -40,15 +40,15 @@ public class Mongo {
 	}
 
 	public static void setDatabase2(MongoCollection<Document> col1,String reply) throws Exception {
-        JSONParser parser = new JSONParser();
-        Object raw = parser.parse(reply);
-        JSONArray data = (JSONArray)raw;
+		JSONParser parser = new JSONParser();
+		Object raw = parser.parse(reply);
+		JSONArray data = (JSONArray)raw;
 
-        for(Object d : data){
-            JSONObject json = (JSONObject)d;
-            Document doc = Document.parse(json.toJSONString());
-            col1.insertOne(doc);
-        }
+		for(Object d : data){
+			JSONObject json = (JSONObject)d;
+			Document doc = Document.parse(json.toJSONString());
+			col1.insertOne(doc);
+		}
 	}
 
 	public static void deleteDatabase(MongoCollection<Document> col1) throws Exception {
@@ -135,21 +135,21 @@ public class Mongo {
 		JSONArray array = (JSONArray)parsed;
 
 		for(int i=0; i<array.size(); i++){
-		    //JSONObjectにキャスト
-		    JSONObject commit = (JSONObject)array.get(i);
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
 
-		    //shaを取り出し
+			//shaを取り出し
 
-		    //JSONObject t1 = (JSONObject)commit.get("commit");
-		    //JSONObject t2 = (JSONObject)t1.get("author");
-		    //strArray[i] = (String)t2.get("name");
-		    //System.out.println(strArray[i]);
+			//JSONObject t1 = (JSONObject)commit.get("commit");
+			//JSONObject t2 = (JSONObject)t1.get("author");
+			//strArray[i] = (String)t2.get("name");
+			//System.out.println(strArray[i]);
 
-		    //[]のやつのときはJson
-		    JSONObject t1 = (JSONObject)commit.get("stats");
-		    long doc1= (Long)t1.get("total");
-		    //System.out.println("change:"+(int)doc1);
-		    intArray[i]=(int)doc1;
+			//[]のやつのときはJson
+			JSONObject t1 = (JSONObject)commit.get("stats");
+			long doc1= (Long)t1.get("total");
+			//System.out.println("change:"+(int)doc1);
+			intArray[i]=(int)doc1;
 		}
 		return intArray;
 	}
@@ -164,7 +164,7 @@ public class Mongo {
     JSONObject t1 = (JSONObject)commit.get("stats");
     long doc1= (Long)t1.get("total");
     intArray[i]=(int)doc1;
-	**/
+	 **/
 
 	public static String[] extractStr (String reply,int j,String str)throws Exception {
 
@@ -193,8 +193,8 @@ public class Mongo {
 			}
 		}
 		System.out.println("でけた");
-	return strArray;
-}
+		return strArray;
+	}
 
 	public static int mongoCount(MongoCollection<Document> col){
 		long count = col.count();
