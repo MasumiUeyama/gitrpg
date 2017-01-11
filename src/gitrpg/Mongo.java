@@ -86,7 +86,7 @@ public class Mongo {
 			String time = df.format(cal.getTime());
 			cal.add(Calendar.DATE, -1);
 			query.put(key, time);
-			System.out.println(time);
+			//System.out.println(time);
 			MongoCursor<Document> cursor1 = col1.find(query).iterator();
 			while (cursor1.hasNext()) {
 				doc1 = cursor1.next();

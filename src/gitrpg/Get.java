@@ -1,5 +1,9 @@
 package gitrpg;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -132,27 +136,6 @@ public class Get {
 			doc.append("body",strArray[m++]);
 			col1.insertOne(doc);
 		}
-
-		//List<CommitData> result = new ArrayList<>();
-
-		/*			CommitData data = new CommitData();
-		data.setName(doc.getString("name"));
-		data.setChange(doc.getString("change"));*/
-
-
-//		JSONArray result = new JSONArray();
-//
-//		for(Document doc : col1.find()){
-//			//String json = doc.toJson();
-//			JSONObject json = new JSONObject();
-//			json.put("name", doc.getString("name"));
-//			json.put("change", Integer.parseInt(doc.getString("change")));
-//			result.add(json);
-//
-//			System.out.println("名前: " + doc.getString("change"));
-//
-//		}
-//		System.out.println(result.toJSONString());
 	}
 
 
@@ -242,14 +225,16 @@ public class Get {
 		}
 
 	}
-	public static List<CommitData> getCommit2(String TEAM,String REPOS,String NAME,int DAY,
+	public static List<CommitData> getCommit(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1) throws Exception {
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
 		String reply=http.apiGet(url);
 		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		String b = "\"},\"committer\":";
 		reply = reply.replaceAll(a,b);
-
+		Calendar cal1 = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		cal1.add(Calendar.DATE, DAY*-1);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
 		String strArray[] = new String[count*5+1];
@@ -261,6 +246,7 @@ public class Get {
 		JSONArray array = (JSONArray)parsed;
 
 		int k=0;
+		int n=0;
 		for(int i=0; i<array.size(); i++){
 			//JSONObjectにキャスト
 			JSONObject commit = (JSONObject)array.get(i);
@@ -276,7 +262,14 @@ public class Get {
 			t1 = (JSONObject)commit.get("commit");
 			t2 = (JSONObject)t1.get("author");
 			strArray[k++] = (String)t2.get("date");
+	        // コマンド引数でDateオブジェクトを作成
+	        Date d = df.parse(strArray[k-1]);
 
+	        // Calendarオブジェクトを作成し、上記で作成したDateオブジェクトの日時を設定
+	        Calendar cal2 = Calendar.getInstance();
+	        cal2.setTime(d);
+	        int diff = cal1.compareTo(cal2);
+	        //System.out.println(diff);
 			String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
 
 			strArray[k++] =String.valueOf(getChange2(changeurl));
@@ -284,12 +277,14 @@ public class Get {
 
 			t1 = (JSONObject)commit.get("commit");
 			strArray[k++] = (String)t1.get("message");
+			if(diff==1) break;
+			n++;
 		}
 		Mongo.deleteDatabase(col1);
 
 		int m=0;
 
-		for(int j=0; j<array.size(); j++){
+		for(int j=0; j<n; j++){
 			Document doc = new Document();
 			doc.append("sha",strArray[m++]);
 			doc.append("login",strArray[m++]);
@@ -298,6 +293,8 @@ public class Get {
 			doc.append("message",strArray[m++]);
 			col1.insertOne(doc);
 		}
+
+
 
 		//List<CommitData> result = new ArrayList<>();
 
@@ -308,17 +305,17 @@ public class Get {
 
 		JSONArray result = new JSONArray();
 
-		for(Document doc : col1.find()){
-			//String json = doc.toJson();
-			JSONObject json = new JSONObject();
-			json.put("name", doc.getString("name"));
-			json.put("change", Integer.parseInt(doc.getString("change")));
-			result.add(json);
-
-			System.out.println("名前: " + doc.getString("change"));
-
-		}
-		System.out.println(result.toJSONString());
+//		for(Document doc : col1.find()){
+//			//String json = doc.toJson();
+//			JSONObject json = new JSONObject();
+//			json.put("name", doc.getString("login"));
+//			json.put("change", Integer.parseInt(doc.getString("change")));
+//			result.add(json);
+//
+//			System.out.println("名前: " + doc.getString("change"));
+//
+//		}
+//		System.out.println(result.toJSONString());
 		return  result;
 	}
 
@@ -347,71 +344,6 @@ public class Get {
 		}
 		return j;
 	}
-
-
-	public static int getCommit(String TEAM,String REPOS,String NAME,int DAY,
-			MongoCollection<Document> col1,
-			MongoCollection<Document> col2,
-			MongoCollection<Document> col3) throws Exception {
-		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
-		String reply=http.apiGet(url);
-		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
-		String b = "\"},\"committer\":";
-		reply = reply.replaceAll(a,b);
-		Mongo.setDatabase1(col1, reply);
-		int count2 = Mongo.mongoCount(col1);
-		System.out.println(reply);
-		System.out.println(count2);
-		Mongo.fltrDatabase(col1,col2,"commit.author.name",NAME);
-		Mongo.getTime(col2,col3,"commit.author.date",DAY);
-		int count = Mongo.mongoCount(col3);
-
-		return  count;
-	}
-
-
-
-	public static String[] getSha(MongoCollection<Document> col,int count) throws Exception {
-		String sha[]=Mongo.extractSha(Mongo.convString(col),(int)count);
-		for(int i=0;i<(int)count;i++){
-			//System.out.println(sha[i]);
-		}
-
-		return sha;
-	}
-
-	public static void getChange(String TEAM,String REPOS,String sha[],
-			MongoCollection<Document> col1) throws Exception {
-
-		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
-		String reply="[";
-		String urls[]=new String[sha.length];
-		for(int i=0;i<sha.length-1;i++){
-			urls[i]=url+"/" + sha[i];
-			reply = reply+ http.apiGet(urls[i]);
-			//System.out.println(urls[i]);
-		}
-		reply = reply + "]";
-		Mongo.setDatabase1(col1, reply);
-		int count = Mongo.mongoCount(col1);
-		System.out.println("数値:"+count);
-		int intArray[] = new int[count+1];
-		intArray = Mongo.extractInt(reply, count,"Change");
-		for(int i=0;i<count;i++) System.out.println(intArray[i]);
-
-	}
-
-//	public static void getComment(String TEAM,String REPOS,
-//			MongoCollection<Document> col1) throws Exception{
-//		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/comments";
-//		String reply=http.apiGet(url);
-//		Mongo.setDatabase1(col1, reply);
-//		int count = Mongo.mongoCount(col1);
-//		String strArray[] = new String[count*3];
-//		strArray =Mongo.extractStr(reply, count,"Comment");
-//		for(int i=0;i<count*3;i++) System.out.println("こめのｔ"+strArray[i]);
-//
-//	}
 
 	public static void getMember(String TEAM,String REPOS,
 			MongoCollection<Document> col1) throws Exception{
