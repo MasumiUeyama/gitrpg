@@ -38,8 +38,8 @@
 
 <div style="position: absolute;left:30;>
 <div style="vertical-align: middle">
-<img class="getPhoto" border="1" src="" width="400" height="350">
-<div>
+<img class="getPhoto1" border="1" src="" width="400" height="350">
+</div>
 </p>
 
 <!--ゲージの作成 valueの値を決まったルールに合わせて--><!--コメント-->
@@ -54,10 +54,7 @@
 <div style="position: absolute; top:200; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9734</FONT>
 </div>
 
-<div style="position: absolute; top:290; left:520; width:5; height:100; z-index: 1">魔力
-</div>
-<div style="position: absolute; top:290; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9834</FONT>
-</div>
+
 
 
 <div style="position: absolute; top:120; left:600; width:5; height:100; z-index: 1">
@@ -65,52 +62,75 @@
 <!--体力 タスクが終わっていないと減る仕組み--><!--コメント-->
 <meter max="100" low="20" high="60" value="50">50%</meter><br><br><br><br><br>
 <!--�o���l�@�R�~�b�g���@����܂ōs�����烌�x���A�b�v--><!--�R�����g-->
-<meter max="100" low="20" high="60" value="90">80%</meter><br>
-<!--���́@�L�����N�^�[�ɂ���ČŒ�@���x�����オ��Ώ���l�㏸--><!--�R�����g-->
 
 </div>
 
 
 </div><br>
 
-<div style="position: absolute; top:70; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">対戦
+
+
+<div style="position: absolute; top:200; left:1150;">
+<form action="combat.html" method="get">
+<table border="0">
+
+  <tr>
+    <td align="right"><b> 名前：</b></td>
+    <td><input type="text" name="user2" size="30" maxlength="20"></td>
+  </tr>
+</table>
+  <input id="userNameInput" type="hidden" name="user1" value="">
+  <input type="submit" value="対戦">
+</form>
+</div>
+
+
+<div style="position: absolute; top:455; left:30;
+border-style: solid ; border-width: 1px;border-color: black;width: 200px;padding: 10px 10px 10px 10px;">
+コミット数=<span class="commitCount"></span>
 </div><br>
 
-<div style="position: absolute; top:120; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;height:100px">
+
+<div style="position: absolute; top:510; left:30;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+コミット数 = <span class="commitCount"></span>
+</div><br>
+
+<div style="position: absolute; top:565; left:30;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+コメント数 = <span class="countComment"></span>
+</div><br>
+
+<div style="position: absolute; top:615; left:30;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+実装行数 = <span class="getChange2"></span>
 </div><br>
 
 
-<div style="position: absolute; top:455; left:30;border-style: solid ; border-width: 1px;border-color: black;width: 200px;padding: 10px 10px 10px 10px;">コミット数=<span class="commitCount"></span>
+
+
+<div style="position: absolute; top:455; left:1150;
+border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">
+
 </div><br>
 
-
-<div style="position: absolute; top:510; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">コミット数 = <span class="commitCount"></span>
+<div style="position: absolute; top:510; left:1150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
 </div><br>
 
-<div style="position: absolute; top:565; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">コメント数 = <span class="countComment"></span>
+<div style="position: absolute; top:565; left:1150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+
 </div><br>
 
-<div style="position: absolute; top:615; left:30;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">実装行数 = <span class="getChange2"></span>
-</div><br>
+<div style="position: absolute; top:615; left:1150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
 
-
-
-
-<div style="position: absolute; top:455; left:1150;border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">�]��
-</div><br>
-
-<div style="position: absolute; top:510; left:1150; border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">A����
-</div><br>
-
-<div style="position: absolute; top:565; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">B����
-</div><br>
-
-<div style="position: absolute; top:615; left:1150;border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">C����
 </div><br>
 
 
   <script type="text/javascript">
-    var user;
+    var user1;
     var repo;
     var place;
 
@@ -121,10 +141,13 @@
     	    var kv = pair[i].split('=');
     	    arg[kv[0]]=kv[1];
     	}
-    	user = arg.user;
+    	user1 = arg.user1;
     	repo = arg.repo;
     	place =arg.place;
     	commit();
+
+    	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
+    	$("#userNameInput").attr("value", arg.user1);
     });
 
   	function commit(){
@@ -141,7 +164,7 @@
     });
 
   	function countComment(){
-  		get.countComment(user,{
+  		get.countComment(user1,{
   			callback: function(data){
   				$(".countComment").text(data);
   			}
@@ -153,7 +176,7 @@
     });
 
   	function getChange2(){
-  		get.getChange2(user,{
+  		get.getChange2(user1,{
   			callback: function(data){
   /*				console.log(data);*/
   				$(".getChange2").text(data);
@@ -162,13 +185,13 @@
   	}
 
     $(document).ready(function(){
-    	getPhoto();
+    	getPhoto1();
     });
 
-  	function getPhoto(){
-  		get.getPhoto(user, {
+  	function getPhoto1(){
+  		get.getPhoto(user1, {
   			callback: function(data){
-  				$(".getPhoto").attr("src", data);
+  				$(".getPhoto1").attr("src", data);
   			}
   		});
   	}
@@ -194,6 +217,7 @@
         if (data != null && typeof data == 'object') alert(dwr.util.toDescriptiveString(data, 2));
         else dwr.util.setValue('d2', dwr.util.toDescriptiveString(data, 1));
       } */
+
     </script>
 
 
