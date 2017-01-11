@@ -25,7 +25,7 @@ public class Mongo {
 
 	public static void main(String[] args) throws Exception{
 		Main.main();
-	}
+		}
 
 	public static void setDatabase1(MongoCollection<Document> col1,String reply) throws Exception {
 		JSONParser parser = new JSONParser();

@@ -7,7 +7,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 /**
  * DWRでJSから呼ばれるメソッドはすべてpublicでなければならない．また，必要なクラスはすべてdwr.xmlに定義されている必要がある．
@@ -20,15 +22,52 @@ public class Get {
 		Main.main();
 	}
 
-
 	public static int countComment(String name) throws Exception{
-		int a=0;
-		return a;
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Comment");
+		int result=0;
+		for(Document doc : col1.find()){
+			JSONObject json = new JSONObject();
+			//json.put("id", doc.getString("id"));
+			json.put("login", doc.getString("login"));
+			if(doc.getString("login").equals(name)) result++;
+		}
+		System.out.println(result);
+	return result;
 	}
 
-	public static int getChange(String name) throws Exception{
-		int a=0;
-		return a;
+	public static int countCommit(String name) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Commit");
+		int result=0;
+		for(Document doc : col1.find()){
+			JSONObject json = new JSONObject();
+			//json.put("id", doc.getString("id"));
+			json.put("login", doc.getString("login"));
+			if(doc.getString("login").equals(name)) result++;
+			System.out.println(doc.getString("login"));
+		}
+		System.out.println(result);
+	return result;
+	}
+
+	public static int sumChange(String name) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Commit");
+		int sum=0;
+		JSONArray result = new JSONArray();
+
+		for(Document doc : col1.find()){
+			//String json = doc.toJson();
+			JSONObject json = new JSONObject();
+			json.put("name", doc.getString("name"));
+			json.put("change", Integer.parseInt(doc.getString("change")));
+			if(doc.getString("login").equals(name)) sum+=Integer.parseInt(doc.getString("change"));
+		}
+		return  sum;
 	}
 
 	public static String getPhoto(String name) throws Exception{
@@ -253,7 +292,7 @@ public class Get {
 		for(int j=0; j<array.size(); j++){
 			Document doc = new Document();
 			doc.append("sha",strArray[m++]);
-			doc.append("name",strArray[m++]);
+			doc.append("login",strArray[m++]);
 			doc.append("date",strArray[m++]);
 			doc.append("change",strArray[m++]);
 			doc.append("message",strArray[m++]);

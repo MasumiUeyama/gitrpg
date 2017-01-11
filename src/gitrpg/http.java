@@ -23,7 +23,7 @@ public class http {
 			try {
 				connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
-				connection.setRequestProperty("Authorization", "token adff2e4659a7550c3ca992de3c939fd966be08e5");
+				connection.setRequestProperty("Authorization", "token af8ae0071471c1b35dce1c7dbad639fdbb5a1840");
 
 				int c = 0;
 				if ( (c = connection.getResponseCode()) == HttpURLConnection.HTTP_OK) {
