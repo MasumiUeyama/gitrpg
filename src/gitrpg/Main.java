@@ -47,7 +47,7 @@ public class Main {
 		//String a = Get.getPhoto("MasumiUeyama");
 		//System.out.println(a);
 		Get.getCommit(team, repo,name,day, col7);
-		//Get.getEvent(team, repo,name,day,col9);
+		Get.getEvent(team, repo,name,day,col9);
 		//Get.getBranch(name, col9, col10);
 
 		mongoClient.close();

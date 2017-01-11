@@ -167,6 +167,10 @@ public class Get {
 		String next="";
 		String end="[]";
 		int su = 0;
+		Calendar cal1 = Calendar.getInstance();
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		cal1.add(Calendar.DATE, DAY*-1);
+
 		page++;
 		url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
 		replys[page]=http.apiGet(url);
@@ -192,32 +196,41 @@ public class Get {
 		//reply = reply.replaceAll(a,b);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		String strArray[] = new String[count*3+1];
+		String strArray[] = new String[count*4+1];
 
 		JSONParser p = new JSONParser();
 		Object parsed = p.parse(reply);
 		JSONArray array = (JSONArray)parsed;
 
+		int n=0;
 		int k=0;
 		for(int i=0; i<array.size(); i++){
 			//JSONObjectにキャスト
 			JSONObject commit = (JSONObject)array.get(i);
 
 			JSONObject t1,t2,t3;
-
+			strArray[k++] = (String)commit.get("created_at");
+			su=strArray[k-1].length();
+			strArray[k-1] = strArray[k-1].substring(0,su-10);
+	        Date d = df.parse(strArray[k-1]);
+	        Calendar cal2 = Calendar.getInstance();
+	        cal2.setTime(d);
+	        int diff = cal1.compareTo(cal2);
 			strArray[k++] = (String)commit.get("type");
 			t1 = (JSONObject)commit.get("actor");
 			strArray[k++] = (String)t1.get("login");
 			t1 = (JSONObject)commit.get("payload");
 			strArray[k++] = (String)t1.get("ref");
-
+			if(diff==1) break;
+			n++;
 		}
 		Mongo.deleteDatabase(col1);
 
 		int m=0;
 
-		for(int j=0; j<array.size(); j++){
+		for(int j=0; j<n; j++){
 			Document doc = new Document();
+			doc.append("created_at",strArray[m++]);
 			doc.append("id",strArray[m++]);
 			doc.append("login",strArray[m++]);
 			doc.append("ref",strArray[m++]);
@@ -232,9 +245,11 @@ public class Get {
 		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		String b = "\"},\"committer\":";
 		reply = reply.replaceAll(a,b);
+
 		Calendar cal1 = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		cal1.add(Calendar.DATE, DAY*-1);
+
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
 		String strArray[] = new String[count*5+1];
@@ -264,12 +279,10 @@ public class Get {
 			strArray[k++] = (String)t2.get("date");
 	        // コマンド引数でDateオブジェクトを作成
 	        Date d = df.parse(strArray[k-1]);
-
-	        // Calendarオブジェクトを作成し、上記で作成したDateオブジェクトの日時を設定
 	        Calendar cal2 = Calendar.getInstance();
 	        cal2.setTime(d);
 	        int diff = cal1.compareTo(cal2);
-	        //System.out.println(diff);
+
 			String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
 
 			strArray[k++] =String.valueOf(getChange2(changeurl));
