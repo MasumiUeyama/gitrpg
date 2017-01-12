@@ -25,7 +25,7 @@
 
 <p class="resizeimage">
 
-<div style="position: absolute;left:100;top:100;>
+<div style="position: absolute;top:100;left:100;>
 <div style="vertical-align: middle">
 <img class="getPhoto1" border="1" src="" width="400" height="350">
 </div>
@@ -52,9 +52,33 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 実装行数 = <span class="getChange2"></span>
 </div><br>
 
+
+<!--結果ボタン-->
+
+<div style="position: absolute; top:400; left:625;">
+<form action="result.html" method="get">
+
+  <input id="userNameInput1" type="hidden" name="user1" value="">
+  <input id="userNameInput2" type="hidden" name="user2" value="">
+
+  <input type="submit" style="font-size:20px;" value="結果">
+</form>
+</div>
+
+
+
+
+
+<div style="position: absolute; top:300; left:625;">
+<font size="8">
+ VS
+</font>
+</div>
+
+
 <!--user2-->
 
-<div style="position: absolute; top:50; left:750;">
+<div style="position: absolute; top:50; left:950;">
 <font size="5">
 <span class="user-name2"></span>
 </font>
@@ -62,29 +86,29 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 <p class="resizeimage">
 
-<div style="position: absolute;left:600;top:100;>
+<div style="position: absolute;top:100;left:800;>
 <div style="vertical-align: middle">
 <img class="getPhoto2" border="1" src="" width="400" height="350">
 </div>
 </p>
 
-<div style="position: absolute; top:475; left:600;
+<div style="position: absolute; top:475; left:800;
 border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
 合計=<span class="commitCount"></span>
 </div><br>
 
 
-<div style="position: absolute; top:530; left:600;
+<div style="position: absolute; top:530; left:800;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 コミット数 = <span class="commitCount"></span>
 </div><br>
 
-<div style="position: absolute; top:585; left:600;
+<div style="position: absolute; top:585; left:800;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 コメント数 = <span class="countComment"></span>
 </div><br>
 
-<div style="position: absolute; top:635; left:600;
+<div style="position: absolute; top:635; left:800;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 実装行数 = <span class="getChange2"></span>
 </div><br>
@@ -109,7 +133,10 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
  	user2 = arg.user2;
  	repo = arg.repo;
  	place =arg.place;
+ 	commit();
 
+ 	$("#userNameInput1").attr("value", arg.user1);
+ 	$("#userNameInput2").attr("value", arg.user2);
  	$(".user-name1").text(user1);
 	$(".user-name2").text(user2);
 
