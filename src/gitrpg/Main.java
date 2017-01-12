@@ -13,7 +13,7 @@ public class Main {
 	static String team = "igakilab";
 	static String repo = "gitrpg";
 	static String name ="MasumiUeyama";
-	static int day = 2;
+	static int day = 5;
 
 	public static int main() throws Exception{
 		MongoClient mongoClient = new MongoClient();
@@ -46,8 +46,8 @@ public class Main {
 
 		//String a = Get.getPhoto("MasumiUeyama");
 		//System.out.println(a);
-		Get.getCommit(team, repo,name,day, col7);
-		Get.getEvent(team, repo,name,day,col9);
+		//Get.getCommit(team, repo,name,day, col7);
+		//Get.getEvent(team, repo,name,day,col9);
 		//Get.getBranch(name, col9, col10);
 
 		mongoClient.close();

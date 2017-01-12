@@ -22,6 +22,8 @@ import com.mongodb.client.MongoDatabase;
  */
 public class Get {
 
+	static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
 	public static void main(String[] args) throws Exception{
 		Main.main();
 	}
@@ -57,7 +59,7 @@ public class Get {
 	return result;
 	}
 
-	public static int sumChange(String name) throws Exception{
+	public static int countChange(String name) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
 		MongoCollection<Document> col1 = database.getCollection("Commit");
@@ -168,7 +170,7 @@ public class Get {
 		String end="[]";
 		int su = 0;
 		Calendar cal1 = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		cal1.add(Calendar.DATE, DAY*-1);
 
 		page++;
@@ -191,8 +193,8 @@ public class Get {
 		}
 		reply = reply + "]";
 
-		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
-		String b = "\"},\"committer\":";
+		//String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
+		//String b = "\"},\"committer\":";
 		//reply = reply.replaceAll(a,b);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
@@ -209,9 +211,17 @@ public class Get {
 			JSONObject commit = (JSONObject)array.get(i);
 
 			JSONObject t1,t2,t3;
-			strArray[k++] = (String)commit.get("created_at");
+			String time = (String)commit.get("created_at");
+
+			Date dtmp = df.parse(time);
+			Calendar cal3 = Calendar.getInstance();
+			cal3.setTime(dtmp);
+			cal3.add(Calendar.HOUR, 9);
+			time = df.format(cal3.getTime());
+			strArray[k++] = time;
+
 			su=strArray[k-1].length();
-			strArray[k-1] = strArray[k-1].substring(0,su-10);
+			//strArray[k-1] = strArray[k-1].substring(0,su-10);
 	        Date d = df.parse(strArray[k-1]);
 	        Calendar cal2 = Calendar.getInstance();
 	        cal2.setTime(d);
@@ -240,15 +250,18 @@ public class Get {
 	}
 	public static List<CommitData> getCommit(String TEAM,String REPOS,String NAME,int DAY,
 			MongoCollection<Document> col1) throws Exception {
-		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits";
-		String reply=http.apiGet(url);
-		String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
-		String b = "\"},\"committer\":";
-		reply = reply.replaceAll(a,b);
 
 		Calendar cal1 = Calendar.getInstance();
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		cal1.add(Calendar.DATE, DAY*-1);
+		String str = df.format(cal1.getTime());
+
+		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits?since="+str;
+
+		String reply=http.apiGet(url);
+		//String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
+		//String b = "\"},\"committer\":";
+		//reply = reply.replaceAll(a,b);
+
 
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
@@ -276,12 +289,15 @@ public class Get {
 
 			t1 = (JSONObject)commit.get("commit");
 			t2 = (JSONObject)t1.get("author");
-			strArray[k++] = (String)t2.get("date");
-	        // コマンド引数でDateオブジェクトを作成
-	        Date d = df.parse(strArray[k-1]);
-	        Calendar cal2 = Calendar.getInstance();
-	        cal2.setTime(d);
-	        int diff = cal1.compareTo(cal2);
+			String time = (String)t2.get("date");
+
+			Date dtmp = df.parse(time);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(dtmp);
+			cal2.add(Calendar.HOUR, 9);
+			time = df.format(cal2.getTime());
+			System.out.println(time);
+			strArray[k++] = time;
 
 			String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
 
@@ -290,7 +306,6 @@ public class Get {
 
 			t1 = (JSONObject)commit.get("commit");
 			strArray[k++] = (String)t1.get("message");
-			if(diff==1) break;
 			n++;
 		}
 		Mongo.deleteDatabase(col1);
@@ -302,7 +317,7 @@ public class Get {
 			doc.append("sha",strArray[m++]);
 			doc.append("login",strArray[m++]);
 			doc.append("date",strArray[m++]);
-			doc.append("change",strArray[m++]);
+			doc.append("change",Integer.parseInt(strArray[m++]));
 			doc.append("message",strArray[m++]);
 			col1.insertOne(doc);
 		}
