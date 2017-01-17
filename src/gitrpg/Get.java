@@ -28,6 +28,8 @@ public class Get {
 		Main.main();
 	}
 
+
+
 	public static int countComment(String name) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
@@ -39,8 +41,8 @@ public class Get {
 			json.put("login", doc.getString("login"));
 			if(doc.getString("login").equals(name)) result++;
 		}
-		System.out.println(result);
-	return result;
+		//System.out.println(result);
+		return result;
 	}
 
 	public static int countCommit(String name) throws Exception{
@@ -53,10 +55,10 @@ public class Get {
 			//json.put("id", doc.getString("id"));
 			json.put("login", doc.getString("login"));
 			if(doc.getString("login").equals(name)) result++;
-			System.out.println(doc.getString("login"));
+			//System.out.println(doc.getString("login"));
 		}
-		System.out.println(result);
-	return result;
+		//System.out.println(result);
+		return result;
 	}
 
 	public static int countChange(String name) throws Exception{
@@ -69,9 +71,8 @@ public class Get {
 		for(Document doc : col1.find()){
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
-			json.put("name", doc.getString("name"));
-			json.put("change", Integer.parseInt(doc.getString("change")));
-			if(doc.getString("login").equals(name)) sum+=Integer.parseInt(doc.getString("change"));
+			json.put("login", doc.getString("login"));
+			if(doc.getString("login").equals(name)) sum+=doc.getInteger("change");
 		}
 		return  sum;
 	}
@@ -85,8 +86,8 @@ public class Get {
 		JSONArray array = (JSONArray)parsed;
 
 		for(int i=0; i<array.size(); i++){
-		    JSONObject commit = (JSONObject)array.get(i);
-		    avatar = (String)commit.get("avatar_url");
+			JSONObject commit = (JSONObject)array.get(i);
+			avatar = (String)commit.get("avatar_url");
 		}
 		return avatar;
 	}
@@ -142,7 +143,7 @@ public class Get {
 
 
 
-	public static void getBranch(String NAME,
+	public static void getBranch(
 			MongoCollection<Document> col1,
 			MongoCollection<Document> col2) throws Exception {
 
@@ -151,7 +152,7 @@ public class Get {
 		for(Document doc : col1.find()){
 			JSONObject json = new JSONObject();
 			//json.put("id", doc.getString("id"));
-			json.put("name", doc.getString("login"));
+			json.put("login", doc.getString("login"));
 			json.put("branch", doc.getString("ref"));
 			if(doc.getString("id").equals("CreateEvent")) result.add(json);
 		}
@@ -159,7 +160,7 @@ public class Get {
 
 	}
 
-	public static void getEvent(String TEAM,String REPOS,String NAME,int DAY,
+	public static void getEvent(String TEAM,String REPOS,int DAY,
 			MongoCollection<Document> col1) throws Exception {
 
 		String url="https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page=1";
@@ -222,10 +223,10 @@ public class Get {
 
 			su=strArray[k-1].length();
 			//strArray[k-1] = strArray[k-1].substring(0,su-10);
-	        Date d = df.parse(strArray[k-1]);
-	        Calendar cal2 = Calendar.getInstance();
-	        cal2.setTime(d);
-	        int diff = cal1.compareTo(cal2);
+			Date d = df.parse(strArray[k-1]);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(d);
+			int diff = cal1.compareTo(cal2);
 			strArray[k++] = (String)commit.get("type");
 			t1 = (JSONObject)commit.get("actor");
 			strArray[k++] = (String)t1.get("login");
@@ -248,7 +249,7 @@ public class Get {
 		}
 
 	}
-	public static List<CommitData> getCommit(String TEAM,String REPOS,String NAME,int DAY,
+	public static List<CommitData> getCommit(String TEAM,String REPOS,int DAY,
 			MongoCollection<Document> col1) throws Exception {
 
 		Calendar cal1 = Calendar.getInstance();
@@ -296,7 +297,7 @@ public class Get {
 			cal2.setTime(dtmp);
 			cal2.add(Calendar.HOUR, 9);
 			time = df.format(cal2.getTime());
-			System.out.println(time);
+			//System.out.println(time);
 			strArray[k++] = time;
 
 			String changeurl = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits/"+sha;
@@ -333,17 +334,17 @@ public class Get {
 
 		JSONArray result = new JSONArray();
 
-//		for(Document doc : col1.find()){
-//			//String json = doc.toJson();
-//			JSONObject json = new JSONObject();
-//			json.put("name", doc.getString("login"));
-//			json.put("change", Integer.parseInt(doc.getString("change")));
-//			result.add(json);
-//
-//			System.out.println("名前: " + doc.getString("change"));
-//
-//		}
-//		System.out.println(result.toJSONString());
+		//		for(Document doc : col1.find()){
+		//			//String json = doc.toJson();
+		//			JSONObject json = new JSONObject();
+		//			json.put("name", doc.getString("login"));
+		//			json.put("change", Integer.parseInt(doc.getString("change")));
+		//			result.add(json);
+		//
+		//			System.out.println("名前: " + doc.getString("change"));
+		//
+		//		}
+		//		System.out.println(result.toJSONString());
 		return  result;
 	}
 
@@ -385,8 +386,8 @@ public class Get {
 
 	}
 
-    public static String helloWorld(String name){
-    	return name + ":HelloWorld";
+	public static String helloWorld(String name){
+		return name + ":HelloWorld";
 
-    }
+	}
 }
