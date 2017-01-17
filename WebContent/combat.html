@@ -1,0 +1,222 @@
+<HTML>
+<HEAD>
+
+<TITLE>バトル</TITLE>
+
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+    <script type="text/javascript" src="dwr/util.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="dwr/interface/main.js"></script>
+    <script type="text/javascript" src="dwr/interface/get.js"></script>
+
+<style>
+
+BODY{
+color: #000000;
+background-color: #f8dce0;
+background-image: url("combat.jpg");
+background-size: cover;
+}
+
+</style>
+</HEAD>
+
+
+<BODY><div style="margin:auto"></div>
+
+
+<!--user1-->
+
+<div style="position: absolute; top:50; left:300;">
+<font size="5">
+<span class="user-name1"></span>
+</font>
+</div>
+
+<p class="resizeimage">
+
+<div style="position: absolute;top:100;left:150;>
+<div style="vertical-align: middle">
+<img class="getPhoto1" border="1" src="" width="400" height="350">
+</div>
+</p>
+
+<div style="position: absolute; top:525; left:150;
+border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
+<font size="4"><B>合計=<span class="commitCount"></span></B></font>
+</div><br>
+
+
+<div style="position: absolute; top:580; left:150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
+</div><br>
+
+<div style="position: absolute; top:635; left:150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
+</div><br>
+
+<div style="position: absolute; top:690; left:150;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
+</div><br>
+
+
+<!--結果ボタン-->
+
+<div style="position: absolute; top:400; left:665;">
+<form action="result.html" method="get">
+
+  <input id="userNameInput1" type="hidden" name="user1" value="">
+  <input id="userNameInput2" type="hidden" name="user2" value="">
+
+  <input type="submit" style="font-size:30px;" value="結果">
+</form>
+</div>
+
+
+
+
+
+<div style="position: absolute; top:300; left:675;">
+<font size="8">
+ VS
+</font>
+</div>
+
+
+<!--user2-->
+
+<div style="position: absolute; top:50; left:1000;">
+<font size="5">
+<span class="user-name2"></span>
+</font>
+</div>
+
+<p class="resizeimage">
+
+<div style="position: absolute;top:100;left:850;>
+<div style="vertical-align: middle">
+<img class="getPhoto2" border="1" src="" width="400" height="350">
+</div>
+</p>
+
+<div style="position: absolute; top:525; left:850;
+border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
+<font size="4"><B>合計=<span class="commitCount"></span></B></font>
+</div><br>
+
+
+<div style="position: absolute; top:580; left:850;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
+</div><br>
+
+<div style="position: absolute; top:635; left:850;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
+</div><br>
+
+<div style="position: absolute; top:690; left:850;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
+</div><br>
+
+
+ <script type="text/javascript">
+
+ var user1;
+ var user2;
+ var repo;
+ var place;
+
+
+ $(document).ready(function(){
+ 	var arg = new Object;
+ 	var pair=location.search.substring(1).split('&');
+ 	for(var i=0;pair[i];i++) {
+ 	    var kv = pair[i].split('=');
+ 	    arg[kv[0]]=kv[1];
+ 	}
+ 	user1 = arg.user1;
+ 	user2 = arg.user2;
+ 	repo = arg.repo;
+ 	place =arg.place;
+ 	commit();
+
+ 	$("#userNameInput1").attr("value", arg.user1);
+ 	$("#userNameInput2").attr("value", arg.user2);
+ 	$(".user-name1").text(user1);
+	$(".user-name2").text(user2);
+
+ });
+
+
+	function commit(){
+  		main.main({
+  			callback: function(data){
+  				$(".commitCount").text(data);
+  			}
+  		});
+  	}
+
+    $(document).ready(function(){
+    	countComment();
+    });
+
+  	function countComment(){
+  		get.countComment(user1,{
+  			callback: function(data){
+  				$(".countComment").text(data);
+  			}
+  		});
+  	}
+
+    $(document).ready(function(){
+    	getChange2();
+    });
+
+  	function getChange2(){
+  		get.getChange2(user1,{
+  			callback: function(data){
+  /*				console.log(data);*/
+  				$(".getChange2").text(data);
+  			}
+  		});
+  	}
+
+
+ $(document).ready(function(){
+ 	getPhoto1();
+ });
+
+	function getPhoto1(){
+		get.getPhoto(user1, {
+			callback: function(data){
+				$(".getPhoto1").attr("src", data);
+			}
+		});
+	}
+
+	  $(document).ready(function(){
+	    	getPhoto2();
+	    });
+
+	  	function getPhoto2(){
+	  		get.getPhoto(user2, {
+	  			callback: function(data){
+	  				$(".getPhoto2").attr("src", data);
+	  			}
+	  		});
+	  	}
+
+
+
+
+
+</script>
+</div></BODY>
+</HTML>
