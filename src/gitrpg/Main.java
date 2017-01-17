@@ -24,8 +24,8 @@ public class Main {
 		MongoCollection<Document> col3 = database.getCollection("Event");
 		MongoCollection<Document> col4 = database.getCollection("Branch");
 		MongoCollection<Document> coltmp = database.getCollection("tmp");
-//		Mongo.deleteDatabase(col1,col2,col3);
-//		Mongo.deleteDatabase(col4,coltmp);
+		Mongo.deleteDatabase(col1,col2,col3);
+		Mongo.deleteDatabase(col4,coltmp);
 
 		Get.getComment(team,repo,col1);
 		//Get.getMember(team,repo,col6);
