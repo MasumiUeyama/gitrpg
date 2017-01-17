@@ -3,6 +3,7 @@
 
 <TITLE>バトル</TITLE>
 
+
 	<script type="text/javascript" src="dwr/engine.js"></script>
     <script type="text/javascript" src="dwr/util.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
@@ -10,14 +11,25 @@
     <script type="text/javascript" src="dwr/interface/main.js"></script>
     <script type="text/javascript" src="dwr/interface/get.js"></script>
 
+<style>
 
+BODY{
+color: #000000;
+background-color: #f8dce0;
+background-image: url("combat.jpg");
+background-size: cover;
+}
+
+</style>
 </HEAD>
 
-<BODY>
+
+<BODY><div style="margin:auto"></div>
+
 
 <!--user1-->
 
-<div style="position: absolute; top:50; left:250;">
+<div style="position: absolute; top:50; left:300;">
 <font size="5">
 <span class="user-name1"></span>
 </font>
@@ -25,43 +37,43 @@
 
 <p class="resizeimage">
 
-<div style="position: absolute;top:100;left:100;>
+<div style="position: absolute;top:100;left:150;>
 <div style="vertical-align: middle">
 <img class="getPhoto1" border="1" src="" width="400" height="350">
 </div>
 </p>
 
-<div style="position: absolute; top:475; left:100;
+<div style="position: absolute; top:525; left:150;
 border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
-合計=<span class="commitCount"></span>
+<font size="4"><B>合計=<span class="commitCount"></span></B></font>
 </div><br>
 
 
-<div style="position: absolute; top:530; left:100;
+<div style="position: absolute; top:580; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-コミット数 = <span class="commitCount"></span>
+<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:585; left:100;
+<div style="position: absolute; top:635; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-コメント数 = <span class="countComment"></span>
+<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:635; left:100;
+<div style="position: absolute; top:690; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-実装行数 = <span class="getChange2"></span>
+<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
 </div><br>
 
 
 <!--結果ボタン-->
 
-<div style="position: absolute; top:400; left:625;">
+<div style="position: absolute; top:400; left:665;">
 <form action="result.html" method="get">
 
   <input id="userNameInput1" type="hidden" name="user1" value="">
   <input id="userNameInput2" type="hidden" name="user2" value="">
 
-  <input type="submit" style="font-size:20px;" value="結果">
+  <input type="submit" style="font-size:30px;" value="結果">
 </form>
 </div>
 
@@ -69,7 +81,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 
 
-<div style="position: absolute; top:300; left:625;">
+<div style="position: absolute; top:300; left:675;">
 <font size="8">
  VS
 </font>
@@ -78,7 +90,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 <!--user2-->
 
-<div style="position: absolute; top:50; left:950;">
+<div style="position: absolute; top:50; left:1000;">
 <font size="5">
 <span class="user-name2"></span>
 </font>
@@ -86,31 +98,31 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 <p class="resizeimage">
 
-<div style="position: absolute;top:100;left:800;>
+<div style="position: absolute;top:100;left:850;>
 <div style="vertical-align: middle">
 <img class="getPhoto2" border="1" src="" width="400" height="350">
 </div>
 </p>
 
-<div style="position: absolute; top:475; left:800;
+<div style="position: absolute; top:525; left:850;
 border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
-合計=<span class="commitCount"></span>
+<font size="4"><B>合計=<span class="commitCount"></span></B></font>
 </div><br>
 
 
-<div style="position: absolute; top:530; left:800;
+<div style="position: absolute; top:580; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-コミット数 = <span class="commitCount"></span>
+<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:585; left:800;
+<div style="position: absolute; top:635; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-コメント数 = <span class="countComment"></span>
+<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:635; left:800;
+<div style="position: absolute; top:690; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-実装行数 = <span class="getChange2"></span>
+<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
 </div><br>
 
 
@@ -206,5 +218,5 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 
 </script>
-</BODY>
+</div></BODY>
 </HTML>

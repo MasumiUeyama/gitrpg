@@ -20,6 +20,18 @@
 	p.resizeimage img { width: 100%;}
 	</style>
 
+	<style>
+
+BODY{
+color: #000000;
+background-color: #f8dce0;
+background-image: url("lab.jpg");
+background-size: cover;
+}
+
+</style>
+
+
 	<script type="text/javascript" src="dwr/engine.js"></script>
     <script type="text/javascript" src="dwr/util.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
@@ -31,18 +43,20 @@
 <BODY>
 
 
-<CENTER>ホームページが出来ました<span class="commitCount"></span></CENTER><BR>
+<!--<CENTER>ホームページが出来ました</CENTER><BR>--><!--コメント-->
 
 
 <p class="resizeimage">
 
-<div style="position: absolute;left:30;>
+<div style="position: absolute;top:100;left:100;>
 <div style="vertical-align: middle">
-<img class="getPhoto1" border="1" src="" width="400" height="350">
+<img class="getPhoto1" border="1" src="" width="400" height="400">
 </div>
 </p>
 
-<!--ゲージの作成 valueの値を決まったルールに合わせて--><!--コメント-->
+<!--ゲージの作成 valueの値を決まったルールに合わせて
+
+
 
 <div style="position: absolute; top:110; left:520; width:5; height:100; z-index: 1">体力
 </div>
@@ -56,10 +70,9 @@
 
 
 
-
 <div style="position: absolute; top:120; left:600; width:5; height:100; z-index: 1">
 <meter id="hpMeter" max="100" low="20" high="60" value="10">10%</meter><br><br><br><br><br>
-<!--体力 タスクが終わっていないと減る仕組み--><!--コメント-->
+
 <meter max="100" low="20" high="60" value="50">50%</meter><br><br><br><br><br>
 
 </div>
@@ -67,11 +80,11 @@
 
 </div><br>
 
-
+-->
 
 <div style="position: absolute; top:200; left:1150;">
 <form action="combat.html" method="get">
-<table border="0">
+<table border="1">
 
   <tr>
     <td align="right"><b> 名前：</b></td>
@@ -84,47 +97,19 @@
 </div>
 
 
-<div style="position: absolute; top:455; left:30;
-border-style: solid ; border-width: 1px;border-color: black;width: 200px;padding: 10px 10px 10px 10px;">
-コミット数=<span class="commitCount"></span>
-</div><br>
-
-
-<div style="position: absolute; top:510; left:30;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+<div style="position: absolute; top:560; left:100;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
 コミット数 = <span class="commitCount"></span>
 </div><br>
 
-<div style="position: absolute; top:565; left:30;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+<div style="position: absolute; top:615; left:100;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
 コメント数 = <span class="countComment"></span>
 </div><br>
 
-<div style="position: absolute; top:615; left:30;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
+<div style="position: absolute; top:665; left:100;
+border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
 実装行数 = <span class="getChange2"></span>
-</div><br>
-
-
-
-
-<div style="position: absolute; top:455; left:1150;
-border-style: solid ; border-width: 1px;border-color: black;width: 50px;padding: 10px 10px 10px 10px;">
-
-</div><br>
-
-<div style="position: absolute; top:510; left:1150;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
-</div><br>
-
-<div style="position: absolute; top:565; left:1150;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
-
-</div><br>
-
-<div style="position: absolute; top:615; left:1150;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: red;width: 300px;">
-
 </div><br>
 
 
