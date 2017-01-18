@@ -14,9 +14,58 @@
 </HEAD>
 <BODY>
 
-わーい
+<span class="judge"></span>
 
 
+
+
+ <script type="text/javascript">
+
+
+ var user1;
+ var user2;
+ var repo;
+ var place;
+
+
+ $(document).ready(function(){
+ 	var arg = new Object;
+ 	var pair=location.search.substring(1).split('&');
+ 	for(var i=0;pair[i];i++) {
+ 	    var kv = pair[i].split('=');
+ 	    arg[kv[0]]=kv[1];
+ 	}
+ 	user1 = arg.user1;
+ 	user2 = arg.user2;
+ 	repo = arg.repo;
+ 	place =arg.place;
+
+ 	$("#userNameInput1").attr("value", arg.user1);
+ 	$("#userNameInput2").attr("value", arg.user2);
+ 	$(".user-name1").text(user1);
+	$(".user-name2").text(user2);
+
+ });
+
+
+
+
+
+	 $(document).ready(function(){
+		 	judge();
+		 });
+
+			function judge(){
+				main.judge(user1,user2,{
+					callback: function(data){
+						$(".judge").text(data);
+					}
+				});
+			}
+
+
+
+</script>
 
 </BODY>
 </HTML>
