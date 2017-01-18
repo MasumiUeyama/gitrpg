@@ -20,6 +20,41 @@ background-image: url("combat.jpg");
 background-size: cover;
 }
 
+
+/* common setting */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    overflow: hidden;
+    z-index: 101;
+}
+.popup_inner {
+    padding: 20px;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.7;
+    z-index: 100;
+}
+
+/* individual setting */
+#popup1 {
+    width: 600px;
+}
+
+
+
+
+
 </style>
 </HEAD>
 
@@ -43,10 +78,6 @@ background-size: cover;
 </div>
 </p>
 
-<div style="position: absolute; top:525; left:150;
-border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
-<font size="4"><B>合計=<span class="commitCount"></span></B></font>
-</div><br>
 
 
 <div style="position: absolute; top:580; left:150;
@@ -56,12 +87,12 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 <div style="position: absolute; top:635; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
+<font size="4"><B>コメント数 = <span class="countComment1"></span></B></font>
 </div><br>
 
 <div style="position: absolute; top:690; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
+<font size="4"><B>実装行数 = <span class="countChange1"></span></B></font>
 </div><br>
 
 
@@ -73,7 +104,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
   <input id="userNameInput1" type="hidden" name="user1" value="">
   <input id="userNameInput2" type="hidden" name="user2" value="">
 
-  <input type="submit" style="font-size:30px;" value="結果">
+  <a href="#popup1" type="button" class="popup_btn" style="font-size:30px;">結果</a>
 </form>
 </div>
 
@@ -104,10 +135,6 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 </div>
 </p>
 
-<div style="position: absolute; top:525; left:850;
-border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color:red;width: 200px">
-<font size="4"><B>合計=<span class="commitCount"></span></B></font>
-</div><br>
 
 
 <div style="position: absolute; top:580; left:850;
@@ -117,13 +144,31 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 <div style="position: absolute; top:635; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>コメント数 = <span class="countComment"></span></B></font>
+<font size="4"><B>コメント数 = <span class="countComment2"></span></B></font>
 </div><br>
 
 <div style="position: absolute; top:690; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>実装行数 = <span class="getChange2"></span></B></font>
+<font size="4"><B>実装行数 = <span class="countChange2"></span></B></font>
 </div><br>
+
+
+<!--ポップアップ-->
+
+<div id="popup1" class="popup">
+<div class="popup_inner">
+<h4><font size="4"><B><CENTER>対戦結果</CENTER></B></font></h4>
+<p><font size="4"><B><span class="judge"></B></font></span></p>
+
+<div>
+<a href="#close_btn" class="close_btn">閉じる</a>
+</div>
+</div>
+</div>
+<div id="overlay"></div>
+
+
+
 
 
  <script type="text/javascript">
@@ -181,29 +226,57 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 			}
 
     $(document).ready(function(){
-    	countComment();
+    	countComment1();
     });
 
-  	function countComment(){
+  	function countComment1(){
   		get.countComment(user1,{
   			callback: function(data){
-  				$(".countComment").text(data);
+  				$(".countComment1").text(data);
   			}
   		});
   	}
 
     $(document).ready(function(){
-    	getChange2();
+    	countComment2();
     });
 
-  	function getChange2(){
-  		get.getChange2(user1,{
+  	function countComment2(){
+  		get.countComment(user2,{
   			callback: function(data){
-  /*				console.log(data);*/
-  				$(".getChange2").text(data);
+  				$(".countComment2").text(data);
   			}
   		});
   	}
+
+    $(document).ready(function(){
+    	countChange1();
+    });
+
+  	function countChange1(){
+  		get.countChange(user1,{
+  			callback: function(data){
+  /*				console.log(data);*/
+  				$(".countChange1").text(data);
+  			}
+  		});
+  	}
+
+
+    $(document).ready(function(){
+    	countChange2();
+    });
+
+  	function countChange2(){
+  		get.countChange(user2,{
+  			callback: function(data){
+  /*				console.log(data);*/
+  				$(".countChange2").text(data);
+  			}
+  		});
+  	}
+
+
 
 
  $(document).ready(function(){
@@ -232,8 +305,56 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 
 
+	  	<!--結果-->
+
+
+		 $(document).ready(function(){
+			 	judge();
+			 });
+
+				function judge(){
+					main.judge(user1,user2,{
+						callback: function(data){
+							$(".judge").text(data);
+						}
+					});
+				}
+
+	  	(function($){
+	  	$(function(){
+	  	    $(document)
+	  	        .on('click', '.popup_btn', function(){
+	  	            var $popup = $($(this).attr('href'));
+
+	  	            $(".judge").text("判定中...");
+	  	            main.judge(user1, user2, {
+	  	            	callback: function(data){
+	  	            		$(".judge").text(data);
+	  	            	}
+	  	            });
+
+	  	            // ポップアップの幅と高さからmarginを計算する
+	  	            var mT = ($popup.outerHeight() / 2) * (-1) + 'px';
+	  	            var mL = ($popup.outerWidth() / 2) * (-1) + 'px';
+
+	  	            // marginを設定して表示
+	  	            $('.popup').hide();
+	  	            $popup.css({
+	  	                'margin-top': mT,
+	  	                'margin-left': mL
+	  	            }).show();
+	  	            $('#overlay').show();
+
+	  	            return false;
+	  	        })
+	  	        .on('click', '.close_btn, #overlay', function(){
+	  	            $('.popup, #overlay').hide();
+	  	            return false;
+	  	        });
+	  	});
+	  	})(jQuery);
 
 
 </script>
-</div></BODY>
+</BODY>
 </HTML>
