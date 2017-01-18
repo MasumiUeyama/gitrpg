@@ -109,7 +109,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
 
 <div style="position: absolute; top:665; left:100;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-実装行数 = <span class="getChange2"></span>
+実装行数 = <span class="countChange"></span>
 </div><br>
 
 
@@ -160,14 +160,14 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
   	}
 
     $(document).ready(function(){
-    	getChange2();
+    	countChange();
     });
 
-  	function getChange2(){
-  		get.getChange2(user1,{
+  	function countChange(){
+  		get.countChange(user1,{
   			callback: function(data){
   /*				console.log(data);*/
-  				$(".getChange2").text(data);
+  				$(".countChange").text(data);
   			}
   		});
   	}
