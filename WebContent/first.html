@@ -99,7 +99,7 @@ background-size: cover;
 
 <div style="position: absolute; top:560; left:100;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-コミット数 = <span class="commitCount"></span>
+コミット数 = <span class="countCommit"></span>
 </div><br>
 
 <div style="position: absolute; top:615; left:100;
@@ -128,17 +128,21 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
     	user1 = arg.user1;
     	repo = arg.repo;
     	place =arg.place;
-    	commit();
+    	countCommit();
 
     	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
     	$("#userNameInput").attr("value", arg.user1);
     });
 
-  	function commit(){
-  		main.main({
+
+    $(document).ready(function(){
+    	countCommit();
+    });
+
+  	function countCommit(){
+  		get.countCommit(user1,{
   			callback: function(data){
-  				$(".commitCount").text(data);
-  				$("#hpMeter").attr("value", data*10);
+  				$(".countCommit").text(data);
   			}
   		});
   	}

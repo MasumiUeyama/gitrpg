@@ -51,7 +51,7 @@ border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color
 
 <div style="position: absolute; top:580; left:150;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
+<font size="4"><B>コミット数 = <span class="countCommit1"></span></B></font>
 </div><br>
 
 <div style="position: absolute; top:635; left:150;
@@ -112,7 +112,7 @@ border-style: solid ; border-width: 1px;padding: 10px 5px 10px 10px;border-color
 
 <div style="position: absolute; top:580; left:850;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
-<font size="4"><B>コミット数 = <span class="commitCount"></span></B></font>
+<font size="4"><B>コミット数 = <span class="countCommit2"></span></B></font>
 </div><br>
 
 <div style="position: absolute; top:635; left:850;
@@ -145,7 +145,8 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
  	user2 = arg.user2;
  	repo = arg.repo;
  	place =arg.place;
- 	commit();
+ 	countCommit1();
+ 	countCommit2();
 
  	$("#userNameInput1").attr("value", arg.user1);
  	$("#userNameInput2").attr("value", arg.user2);
@@ -154,14 +155,30 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
  });
 
+ $(document).ready(function(){
+ 	countCommit1();
+ });
 
-	function commit(){
-  		main.main({
-  			callback: function(data){
-  				$(".commitCount").text(data);
-  			}
-  		});
-  	}
+	function countCommit1(){
+		get.countCommit(user1,{
+			callback: function(data){
+				$(".countCommit1").text(data);
+			}
+		});
+	}
+
+
+	 $(document).ready(function(){
+		 	countCommit2();
+		 });
+
+			function countCommit2(){
+				get.countCommit(user2,{
+					callback: function(data){
+						$(".countCommit2").text(data);
+					}
+				});
+			}
 
     $(document).ready(function(){
     	countComment();
