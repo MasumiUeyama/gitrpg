@@ -185,16 +185,29 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
  	user1 = arg.user1;
  	user2 = arg.user2;
  	repo = arg.repo;
- 	place =arg.place;
+ 	team =arg.team;
  	day = arg.day;
- 	countCommit1();
- 	countCommit2();
+
+	main.inputDB(team,repo,day, {
+		callback: function(){
+	    	countCommit1();
+	    	countComment1();
+	    	countChange1();
+	    	countChange2();
+ 			countCommit2();
+	    	countComment2();
+
 
  	$("#userNameInput1").attr("value", arg.user1);
  	$("#userNameInput2").attr("value", arg.user2);
  	$(".user-name1").text(user1);
 	$(".user-name2").text(user2);
+	$("#repoNameInput").attr("value", arg.repo);
+	$("#teamNameInput").attr("value", arg.team);
+	$("#dayInput").attr("value", arg.day);
 
+		}
+	});
  });
 
  $(document).ready(function(){
@@ -299,6 +312,19 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 	  			}
 	  		});
 	  	}
+
+	    $(document).ready(function(){
+	    	inputDB();
+	    });
+
+	  	function inputDB(){
+	  		main.inputDB(team,repo,day, {
+	  			callback: function(data){
+	  				$(".inputDB").attr("src", data);
+	  			}
+	  		});
+	  	}
+
 
 
 

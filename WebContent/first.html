@@ -93,26 +93,12 @@ background-size: cover;
 </table>
   <input id="userNameInput" type="hidden" name="user1" value="">
    <input id="repoNameInput" type="hidden" name="repo" value="">
-    <input id="placeNameInput" type="hidden" name="place" value="">
+    <input id="teamNameInput" type="hidden" name="team" value="">
      <input id="dayInput" type="hidden" name="day" value="">
   <input type="submit" value="対戦">
 </form>
 </div>
 
-
-<div style="position: absolute; top:400; left:1250;">
-<form action="combat.html" method="get">
-<table border="1">
-
-  <tr>
-    <td align="right"><b> チーム名：</b></td>
-    <td><input type="text" ="place" size="30" maxlength="20"></td>
-  </tr>
-</table>
-  <input id="userNameInput" type="hidden" name="user1" value="">
-  <input type="submit" value="対戦">
-</form>
-</div>
 
 
 
@@ -137,7 +123,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
   <script type="text/javascript">
     var user1;
     var repo;
-    var place;
+    var team;
     var day;
 
     $(document).ready(function(){
@@ -149,15 +135,23 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
     	}
     	user1 = arg.user1;
     	repo = arg.repo;
-    	place =arg.place;
+    	team =arg.team;
     	day = arg.day;
-    	countCommit();
 
-    	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
-    	$("#userNameInput").attr("value", arg.user1);
-    	$("#repoNameInput").attr("value", arg.repo);
-    	$("#placeNameInput").attr("value", arg.place);
-    	$("#dayInput").attr("value", arg.day);
+    	main.inputDB(team,repo,day, {
+    		callback: function(){
+		    	countCommit();
+		    	countComment();
+		    	countChange();
+
+
+		    	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
+		    	$("#userNameInput").attr("value", arg.user1);
+		    	$("#repoNameInput").attr("value", arg.repo);
+		    	$("#teamNameInput").attr("value", arg.team);
+		    	$("#dayInput").attr("value", arg.day);
+    		}
+    	});
 
     });
 
@@ -211,7 +205,17 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
   		});
   	}
 
+    $(document).ready(function(){
+    	inputDB();
+    });
 
+  	function inputDB(){
+  		main.inputDB(team,repo,day, {
+  			callback: function(data){
+  				$(".inputDB").attr("src", data);
+  			}
+  		});
+  	}
 
 
 
