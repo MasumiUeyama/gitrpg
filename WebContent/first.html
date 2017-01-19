@@ -48,7 +48,7 @@ background-size: cover;
 
 <p class="resizeimage">
 
-<div style="position: absolute;top:100;left:100;>
+<div style="position: absolute;top:100;left:750;>
 <div style="vertical-align: middle">
 <img class="getPhoto1" border="1" src="" width="400" height="400">
 </div>
@@ -82,7 +82,7 @@ background-size: cover;
 
 -->
 
-<div style="position: absolute; top:200; left:1150;">
+<div style="position: absolute; top:200; left:1250;">
 <form action="combat.html" method="get">
 <table border="1">
 
@@ -92,24 +92,45 @@ background-size: cover;
   </tr>
 </table>
   <input id="userNameInput" type="hidden" name="user1" value="">
+   <input id="repoNameInput" type="hidden" name="repo" value="">
+    <input id="placeNameInput" type="hidden" name="place" value="">
+     <input id="dayInput" type="hidden" name="day" value="">
   <input type="submit" value="対戦">
 </form>
 </div>
 
 
-<div style="position: absolute; top:560; left:100;
+<div style="position: absolute; top:400; left:1250;">
+<form action="combat.html" method="get">
+<table border="1">
+
+  <tr>
+    <td align="right"><b> チーム名：</b></td>
+    <td><input type="text" ="place" size="30" maxlength="20"></td>
+  </tr>
+</table>
+  <input id="userNameInput" type="hidden" name="user1" value="">
+  <input type="submit" value="対戦">
+</form>
+</div>
+
+
+
+<div style="position: absolute; top:560; left:750;background-color:#FFFFFF;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-コミット数 = <span class="countCommit"></span>
+コミット数 = <font size="3"><B><span class="countCommit"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:615; left:100;
+
+
+<div style="position: absolute; top:615; left:750;background-color:#FFFFFF;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-コメント数 = <span class="countComment"></span>
+コメント数 = <font size="3"><B><span class="countComment"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:665; left:100;
+<div style="position: absolute; top:670; left:750;background-color:#FFFFFF;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-実装行数 = <span class="countChange"></span>
+実装行数 = <font size="3"><B><span class="countChange"></B></span></B></font>
 </div><br>
 
 
@@ -117,6 +138,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
     var user1;
     var repo;
     var place;
+    var day;
 
     $(document).ready(function(){
     	var arg = new Object;
@@ -128,10 +150,15 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
     	user1 = arg.user1;
     	repo = arg.repo;
     	place =arg.place;
+    	day = arg.day;
     	countCommit();
 
     	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
     	$("#userNameInput").attr("value", arg.user1);
+    	$("#repoNameInput").attr("value", arg.repo);
+    	$("#placeNameInput").attr("value", arg.place);
+    	$("#dayInput").attr("value", arg.day);
+
     });
 
 
@@ -183,6 +210,10 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-col
   			}
   		});
   	}
+
+
+
+
 
 
 /*       function update(){

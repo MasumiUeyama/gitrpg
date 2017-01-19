@@ -79,45 +79,20 @@ background-size: cover;
 </p>
 
 
-
-<div style="position: absolute; top:580; left:150;
+<div style="position: absolute; top:580; left:200;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>コミット数 = <span class="countCommit1"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:635; left:150;
+<div style="position: absolute; top:635; left:200;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>コメント数 = <span class="countComment1"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:690; left:150;
+<div style="position: absolute; top:690; left:200;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>実装行数 = <span class="countChange1"></span></B></font>
 </div><br>
-
-
-<!--結果ボタン-->
-
-<div style="position: absolute; top:400; left:665;">
-<form action="result.html" method="get">
-
-  <input id="userNameInput1" type="hidden" name="user1" value="">
-  <input id="userNameInput2" type="hidden" name="user2" value="">
-
-  <a href="#popup1" type="button" class="popup_btn" style="font-size:30px;">結果</a>
-</form>
-</div>
-
-
-
-
-
-<div style="position: absolute; top:300; left:675;">
-<font size="8">
- VS
-</font>
-</div>
-
 
 <!--user2-->
 
@@ -137,20 +112,40 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
 
 
 
-<div style="position: absolute; top:580; left:850;
+<div style="position: absolute; top:580; left:900;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>コミット数 = <span class="countCommit2"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:635; left:850;
+<div style="position: absolute; top:635; left:900;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>コメント数 = <span class="countComment2"></span></B></font>
 </div><br>
 
-<div style="position: absolute; top:690; left:850;
+<div style="position: absolute; top:690; left:900;
 border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 <font size="4"><B>実装行数 = <span class="countChange2"></span></B></font>
 </div><br>
+
+<div style="position: absolute; top:300; left:675;">
+<font size="8">
+ VS
+</font>
+</div>
+
+
+<!--結果ボタン-->
+
+<div style="position: absolute; top:400; left:675;">
+<form action="result.html" method="get">
+
+  <input id="userNameInput1" type="hidden" name="user1" value="">
+  <input id="userNameInput2" type="hidden" name="user2" value="">
+
+  <a href="#popup1" type="button" class="popup_btn" style="font-size:30px;">結果</a>
+</form>
+</div>
+
 
 
 <!--ポップアップ-->
@@ -177,6 +172,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
  var user2;
  var repo;
  var place;
+ var day;
 
 
  $(document).ready(function(){
@@ -190,6 +186,7 @@ border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-col
  	user2 = arg.user2;
  	repo = arg.repo;
  	place =arg.place;
+ 	day = arg.day;
  	countCommit1();
  	countCommit2();
 
