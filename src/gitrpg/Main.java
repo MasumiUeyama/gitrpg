@@ -42,6 +42,23 @@ public class Main {
 	}
 
 
+	public static void inputDB(String team,String repo,int day) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Comment");
+		MongoCollection<Document> col2 = database.getCollection("Commit");
+		MongoCollection<Document> col3 = database.getCollection("Event");
+		MongoCollection<Document> col4 = database.getCollection("Branch");
+		MongoCollection<Document> coltmp = database.getCollection("tmp");
+		Mongo.deleteDatabase(col1,col2,col3);
+		Mongo.deleteDatabase(col4,coltmp);
+		Get.getComment(team,repo,col1);
+		Get.getCommit(team, repo,day, col2);
+		Get.getEvent(team, repo,day,col3);
+		Get.getBranch(col3, col4);
+		mongoClient.close();
+	}
+
 	public static String judge(String name1,String name2) throws Exception{
 		Random rnd = new Random();
 		int p1=Get.countComment(name1) + Get.countCommit(name1) + Get.countChange(name1);
