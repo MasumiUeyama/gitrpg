@@ -1,254 +1,198 @@
-<HTML>
-<HEAD>
-<TITLE>～～～のホームページ</TITLE>
+	<HTML>
+	<HEAD>
+	<TITLE>～～～のホームページ</TITLE>
 
-	<style>
+		<style>
+		div.box{
+		    background-color:#CCCCFF;
+		    width:200px;
+		    height:100px;
+		}
 
-	div.box{
-	    background-color:#CCCCFF;
-	    width:200px;
-	    height:100px;
+
+		</style>
+
+		<style>
+
+		BODY{
+		color: #000000;
+		background-color: #f8dce0;
+		background-image: url("lab.jpg");
+		background-size: cover;
+		}
+
+		</style>
+
+
+		<script type="text/javascript" src="dwr/engine.js"></script>
+	    <script type="text/javascript" src="dwr/util.js"></script>
+	    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	    <script type="text/javascript" src="js/jquery.serialize.js"></script>
+	    <script type="text/javascript" src="dwr/interface/main.js"></script>
+	    <script type="text/javascript" src="dwr/interface/get.js"></script>
+
+	</HEAD>
+
+	<BODY>
+
+
+	<!-- アイコン画像コメント -->
+
+
+	<p class="resizeimage">
+	<div style="position: absolute;top:100;left:750;>
+	<div style="vertical-align: middle">
+	<img class="getPhoto1" border="1" src="" width="400" height="400">
+	</div>
+	</p>
+
+
+	<!--対戦画面へのボタンコメント-->
+
+	<div style="position: absolute; top:200; left:1250;">
+	<form action="combat.html" method="get">
+	<table border="1">
+
+	  <tr>
+	    <td align="right"><b> 名前：</b></td>
+	    <td><input type="text" name="user2" size="30" maxlength="20"></td>
+	  </tr>
+	</table>
+
+	  <input id="userNameInput" type="hidden" name="user1" value="">
+	  <input id="repoNameInput" type="hidden" name="repo" value="">
+	  <input id="teamNameInput" type="hidden" name="team" value="">
+	  <input id="dayInput" type="hidden" name="day" value="">
+	  <input type="submit" value="対戦">
+	</form>
+	</div>
+
+
+
+	<!--コミット数などの表示コメント-->
+	<div style="position: absolute; top:560; left:750;background-color:#FFFFFF;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
+	コミット数 = <font size="3"><B><span class="countCommit"></span></B></font>
+	</div><br>
+
+
+
+	<div style="position: absolute; top:615; left:750;background-color:#FFFFFF;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
+	コメント数 = <font size="3"><B><span class="countComment"></span></B></font>
+	</div><br>
+
+	<div style="position: absolute; top:670; left:750;background-color:#FFFFFF;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
+	実装行数 = <font size="3"><B><span class="countChange"></B></span></B></font>
+	</div><br>
+
+
+
+	<script type="text/javascript">
+	  var user1;
+	  var repo;
+	  var team;
+	  var day;
+
+	 　$(document).ready(function(){
+	    	var arg = new Object;
+	    	var pair=location.search.substring(1).split('&');
+	    	for(var i=0;pair[i];i++) {
+	    	    var kv = pair[i].split('=');
+	    	    arg[kv[0]]=kv[1];
+	    }
+
+	    user1 = arg.user1;
+	    repo = arg.repo;
+	    team =arg.team;
+	    day = arg.day;
+
+	    main.inputDB(team,repo,day, {
+	    	callback: function(){
+			    countCommit();
+			    countComment();
+			    countChange();
+
+
+		$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
+		$("#userNameInput").attr("value", arg.user1);
+		$("#repoNameInput").attr("value", arg.repo);
+		$("#teamNameInput").attr("value", arg.team);
+		$("#dayInput").attr("value", arg.day);
+	   		 }
+
+	  	});
+
+	});
+
+
+	$(document).ready(function(){
+		countCommit();
+	 });
+
+	function countCommit(){
+	get.countCommit(user1,{
+		callback: function(data){
+		  	$(".countCommit").text(data);
+		  	}
+		 });
 	}
 
 
+	$(document).ready(function(){
+		countComment();
+	});
 
-	meter {
- 	   width: 320px;
-  	  height: 20px;
+
+	function countComment(){
+	get.countComment(user1,{
+		 callback: function(data){
+		     $(".countComment").text(data);
+		  	 }
+		  });
 	}
 
-	p.resizeimage img { width: 100%;}
-	</style>
 
-	<style>
-
-BODY{
-color: #000000;
-background-color: #f8dce0;
-background-image: url("lab.jpg");
-background-size: cover;
-}
-
-</style>
-
-
-	<script type="text/javascript" src="dwr/engine.js"></script>
-    <script type="text/javascript" src="dwr/util.js"></script>
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/jquery.serialize.js"></script>
-    <script type="text/javascript" src="dwr/interface/main.js"></script>
-    <script type="text/javascript" src="dwr/interface/get.js"></script>
-
-</HEAD>
-<BODY>
-
-
-<!--<CENTER>ホームページが出来ました</CENTER><BR>--><!--コメント-->
-
-
-<p class="resizeimage">
-
-<div style="position: absolute;top:100;left:750;>
-<div style="vertical-align: middle">
-<img class="getPhoto1" border="1" src="" width="400" height="400">
-</div>
-</p>
-
-<!--ゲージの作成 valueの値を決まったルールに合わせて
-
-
-
-<div style="position: absolute; top:110; left:520; width:5; height:100; z-index: 1">体力
-</div>
-<div style="position: absolute; top:110; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9825</FONT>
-</div>
-
-<div style="position: absolute; top:190; left:520; width:5; height:100; z-index: 1">経験値
-</div>
-<div style="position: absolute; top:200; left:550; width:5; height:100; z-index: 1"><FONT size="6">&#9734</FONT>
-</div>
-
-
-
-<div style="position: absolute; top:120; left:600; width:5; height:100; z-index: 1">
-<meter id="hpMeter" max="100" low="20" high="60" value="10">10%</meter><br><br><br><br><br>
-
-<meter max="100" low="20" high="60" value="50">50%</meter><br><br><br><br><br>
-
-</div>
-
-
-</div><br>
-
--->
-
-<div style="position: absolute; top:200; left:1250;">
-<form action="combat.html" method="get">
-<table border="1">
-
-  <tr>
-    <td align="right"><b> 名前：</b></td>
-    <td><input type="text" name="user2" size="30" maxlength="20"></td>
-  </tr>
-</table>
-  <input id="userNameInput" type="hidden" name="user1" value="">
-   <input id="repoNameInput" type="hidden" name="repo" value="">
-    <input id="teamNameInput" type="hidden" name="team" value="">
-     <input id="dayInput" type="hidden" name="day" value="">
-  <input type="submit" value="対戦">
-</form>
-</div>
-
-
-
-
-<div style="position: absolute; top:560; left:750;background-color:#FFFFFF;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-コミット数 = <font size="3"><B><span class="countCommit"></span></B></font>
-</div><br>
-
-
-
-<div style="position: absolute; top:615; left:750;background-color:#FFFFFF;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-コメント数 = <font size="3"><B><span class="countComment"></span></B></font>
-</div><br>
-
-<div style="position: absolute; top:670; left:750;background-color:#FFFFFF;
-border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-実装行数 = <font size="3"><B><span class="countChange"></B></span></B></font>
-</div><br>
-
-
-  <script type="text/javascript">
-    var user1;
-    var repo;
-    var team;
-    var day;
-
-    $(document).ready(function(){
-    	var arg = new Object;
-    	var pair=location.search.substring(1).split('&');
-    	for(var i=0;pair[i];i++) {
-    	    var kv = pair[i].split('=');
-    	    arg[kv[0]]=kv[1];
-    	}
-    	user1 = arg.user1;
-    	repo = arg.repo;
-    	team =arg.team;
-    	day = arg.day;
-
-    	main.inputDB(team,repo,day, {
-    		callback: function(){
-		    	countCommit();
-		    	countComment();
-		    	countChange();
-
-
-		    	$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
-		    	$("#userNameInput").attr("value", arg.user1);
-		    	$("#repoNameInput").attr("value", arg.repo);
-		    	$("#teamNameInput").attr("value", arg.team);
-		    	$("#dayInput").attr("value", arg.day);
-    		}
-    	});
-
-    });
-
-
-    $(document).ready(function(){
-    	countCommit();
-    });
-
-  	function countCommit(){
-  		get.countCommit(user1,{
-  			callback: function(data){
-  				$(".countCommit").text(data);
-  			}
-  		});
-  	}
-
-    $(document).ready(function(){
-    	countComment();
-    });
-
-  	function countComment(){
-  		get.countComment(user1,{
-  			callback: function(data){
-  				$(".countComment").text(data);
-  			}
-  		});
-  	}
-
-    $(document).ready(function(){
-    	countChange();
-    });
-
-  	function countChange(){
-  		get.countChange(user1,{
-  			callback: function(data){
-  /*				console.log(data);*/
-  				$(".countChange").text(data);
-  			}
-  		});
-  	}
-
-    $(document).ready(function(){
-    	getPhoto1();
-    });
-
-  	function getPhoto1(){
-  		get.getPhoto(user1, {
-  			callback: function(data){
-  				$(".getPhoto1").attr("src", data);
-  			}
-  		});
-  	}
-
-    $(document).ready(function(){
-    	inputDB();
-    });
-
-  	function inputDB(){
-  		main.inputDB(team,repo,day, {
-  			callback: function(data){
-  				$(".inputDB").attr("src", data);
-  			}
-  		});
-  	}
-
-
-
-
-/*       function update(){
-        var formData = $('#csprinter_form').serializeJson();
-        getCommit.execute(formData, {
-          callback: function(data) {
-            $('#csprinterReply').text(data);
-            $('#error_message').text("");
-          },
-          errorHandler: updateErrorMessage
-        });
-      }
-      function updateErrorMessage(message, exception){
-        $('#error_message').text(message);
-        $('#csprinterReply').text("");
-      }
-
-      var reply = function(data)
-      {
-        if (data != null && typeof data == 'object') alert(dwr.util.toDescriptiveString(data, 2));
-        else dwr.util.setValue('d2', dwr.util.toDescriptiveString(data, 1));
-      } */
-
-    </script>
-
-
-
-
-
-
-
-
-</BODY>
-</HTML>
+	$(document).ready(function(){
+		 countChange();
+	 });
+
+	function countChange(){
+	get.countChange(user1,{
+		  callback: function(data){
+	/*				console.log(data);*/
+		  	 $(".countChange").text(data);
+		  	 }
+		   });
+	}
+
+
+	$(document).ready(function(){
+		   getPhoto1();
+	  });
+
+	function getPhoto1(){
+	get.getPhoto(user1, {
+		  callback: function(data){
+		  	 $(".getPhoto1").attr("src", data);
+		  	 }
+		  });
+	}
+
+
+	$(document).ready(function(){
+		   inputDB();
+	  });
+
+	function inputDB(){
+	main.inputDB(team,repo,day, {
+		  callback: function(data){
+		  	 $(".inputDB").attr("src", data);
+		  	 }
+		  });
+	}
+
+
+	</BODY>
+	</HTML>
