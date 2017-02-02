@@ -89,7 +89,7 @@
 
 	<div style="position: absolute; top:725; left:750;background-color:#FFFFFF;
 	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-	ブランチ数 = <font size="3"><B><span class="countBranch1"></span></B></font>
+	ブランチ数 = <font size="3"><B><span class="countBranch"></span></B></font>
 	</div><br>
 
 
@@ -201,13 +201,13 @@
 	}
 
 	$(document).ready(function(){
-		countBranch1();
+		countBranch();
 	  });
 
-	function countBranch1(){
+	function countBranch(){
 	get.countBranch(user1, {
 		  callback: function(data){
-		  	 $(".countBranch1").attr("src", data);
+		  	 $(".countBranch").attr("src", data);
 		  	 }
 		  });
 	}
