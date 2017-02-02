@@ -11,10 +11,13 @@ import com.mongodb.client.MongoDatabase;
 public class Main {
 
 	static String team = "igakilab";
-	static String repo = "tasks-monitor";
-	static String name ="koike-marshmallow";
-	static String name2 ="S-k-pt";
-	static int day = 30;
+//	static String repo = "tasks-monitor";
+//	static String name ="koike-marshmallow";
+//	static String name2 ="S-k-pt";
+	static String repo = "gitrpg";
+	static String name ="MasumiUeyama";
+	static String name2 ="aoki-tha";
+	static int day = 35;
 
 	public static int main() throws Exception{
 		MongoClient mongoClient = new MongoClient();
@@ -23,13 +26,13 @@ public class Main {
 		MongoCollection<Document> col2 = database.getCollection("Commit");
 		MongoCollection<Document> col3 = database.getCollection("Event");
 		MongoCollection<Document> col4 = database.getCollection("Branch");
+		MongoCollection<Document> col5 = database.getCollection("Member");
 		MongoCollection<Document> coltmp = database.getCollection("tmp");
 		Mongo.deleteDatabase(col1,col2,col3);
 		Mongo.deleteDatabase(col4,coltmp);
 
+		Get.getMember(team,repo,col5);
 		Get.getComment(team,repo,col1);
-		//Get.getMember(team,repo,col6);
-
 		Get.getCommit(team, repo,day, col2);
 		Get.getEvent(team, repo,day,col3);
 		Get.getBranch(col3, col4);
@@ -49,9 +52,11 @@ public class Main {
 		MongoCollection<Document> col2 = database.getCollection("Commit");
 		MongoCollection<Document> col3 = database.getCollection("Event");
 		MongoCollection<Document> col4 = database.getCollection("Branch");
+		MongoCollection<Document> col5 = database.getCollection("Member");
 		MongoCollection<Document> coltmp = database.getCollection("tmp");
 		Mongo.deleteDatabase(col1,col2,col3);
-		Mongo.deleteDatabase(col4,coltmp);
+		Mongo.deleteDatabase(col4,col5,coltmp);
+		Get.getMember(team,repo,col5);
 		Get.getComment(team,repo,col1);
 		Get.getCommit(team, repo,day, col2);
 		Get.getEvent(team, repo,day,col3);

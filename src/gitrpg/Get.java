@@ -28,8 +28,6 @@ public class Get {
 		Main.main();
 	}
 
-
-
 	public static int countComment(String name) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
@@ -390,16 +388,38 @@ public class Get {
 		return j;
 	}
 
-	public static void getMember(String TEAM,String REPOS,
-			MongoCollection<Document> col1) throws Exception{
+	public static void getMember(String TEAM,String REPOS,MongoCollection<Document> col1) throws Exception{
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/contributors";
 		String reply=http.apiGet(url);
 		Mongo.setDatabase1(col1, reply);
 		int count = Mongo.mongoCount(col1);
-		String strArray[] = new String[count*3+3];
-		strArray =Mongo.extractStr(reply, count,"Member");
-		for(int i=0;i<count;i++) System.out.println("メンバ"+strArray[i]);;
+		String strArray[] = new String[count*1+1];
 
+		JSONParser p = new JSONParser();
+		Object parsed = p.parse(reply);
+
+		//とってきたデータが配列のときはJSONArrayにキャストする
+		JSONArray array = (JSONArray)parsed;
+
+		int k=0;
+		int n=0;
+		for(int i=0; i<array.size(); i++){
+			//JSONObjectにキャスト
+			JSONObject commit = (JSONObject)array.get(i);
+
+			strArray[n] = (String)commit.get("login");
+			System.out.println(strArray[n]);
+			n++;
+		}
+		Mongo.deleteDatabase(col1);
+
+		int m=0;
+
+		for(int j=0; j<n; j++){
+			Document doc = new Document();
+			doc.append("login",strArray[m++]);
+			col1.insertOne(doc);
+		}
 	}
 
 	public static String helloWorld(String name){
