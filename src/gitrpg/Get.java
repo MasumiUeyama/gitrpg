@@ -77,6 +77,22 @@ public class Get {
 		return  sum;
 	}
 
+	public static int countBranch(String name) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Branch");
+		int sum=0;
+		JSONArray result = new JSONArray();
+
+		for(Document doc : col1.find()){
+			//String json = doc.toJson();
+			JSONObject json = new JSONObject();
+			json.put("branch", doc.getString("branch"));
+			if(doc.getString("login").equals(name)) sum++;
+		}
+		return  sum;
+	}
+
 	public static String getPhoto(String name) throws Exception{
 		String url = "https://api.github.com/users/" + name;
 		String reply="["+http.apiGet(url)+"]";
@@ -368,7 +384,7 @@ public class Get {
 
 			//[]のやつのときはJson
 			JSONObject t1 = (JSONObject)commit.get("stats");
-			long doc1= (Long)t1.get("total");
+			long doc1= (Long)t1.get("additions");
 			j=(int)doc1;
 		}
 		return j;
