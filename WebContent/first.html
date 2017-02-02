@@ -84,7 +84,12 @@
 
 	<div style="position: absolute; top:670; left:750;background-color:#FFFFFF;
 	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
-	実装行数 = <font size="3"><B><span class="countChange"></B></span></B></font>
+	実装行数 = <font size="3"><B><span class="countChange"></span></B></font>
+	</div><br>
+
+	<div style="position: absolute; top:7250; left:750;background-color:#FFFFFF;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 20px; border-color: black;width: 300px;">
+	ブランチ数 = <font size="3"><B><span class="countBranch1"></span></B></font>
 	</div><br>
 
 
@@ -102,6 +107,8 @@
 	    	    var kv = pair[i].split('=');
 	    	    arg[kv[0]]=kv[1];
 	    }
+
+	    	console.log(arg);
 
 	    user1 = arg.user1;
 	    repo = arg.repo;
@@ -192,6 +199,19 @@
 		  	 }
 		  });
 	}
+
+	$(document).ready(function(){
+		countBranch1();
+	  });
+
+	function countBranch1(){
+	get.countBranch(user1, {
+		  callback: function(data){
+		  	 $(".countBranch1").attr("src", data);
+		  	 }
+		  });
+	}
+	</script>
 
 
 	</BODY>
