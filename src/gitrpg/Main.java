@@ -32,6 +32,7 @@ public class Main {
 		Mongo.deleteDatabase(col4,coltmp);
 
 		Get.getMember(team,repo,col5);
+		//String[]strl=Get.countMember();
 		Get.getComment(team,repo,col1);
 		Get.getCommit(team, repo,day, col2);
 		Get.getEvent(team, repo,day,col3);

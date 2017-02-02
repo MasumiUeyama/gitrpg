@@ -28,6 +28,22 @@ public class Get {
 		Main.main();
 	}
 
+	public static String[] countMember() throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Member");
+		int count = Mongo.mongoCount(col1);
+		String strArray[] = new String[count];
+		int n=0;
+		for(Document doc : col1.find()){
+			JSONObject json = new JSONObject();
+			strArray[n]=(doc.getString("login"));
+			n++;
+		}
+		//System.out.println(result);
+		return strArray;
+	}
+
 	public static int countComment(String name) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
