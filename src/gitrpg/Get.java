@@ -42,7 +42,7 @@ public class Get {
 			json.put("win", doc.getString("win"));
 			if(doc.getString("win").equals(name1)) player1++;
 			if(doc.getString("win").equals(name2)) player2++;
-			if(doc.getString("win").equals("darw")) draw++;
+			if(doc.getString("win").equals("draw")) draw++;
 		}
 		//System.out.println(result);
 		String result =name1+"の勝利数"+player1+"　" +name2+"の勝利数"+ player2 +"　"+"引分け数"+ draw;
