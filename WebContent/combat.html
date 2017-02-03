@@ -92,6 +92,10 @@
 	<font size="4"><B>実装行数 = <span class="countChange1"></span></B></font>
 	</div><br>
 
+	<div style="position: absolute; top:745; left:200;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+	<font size="4"><B>ブランチ数 = <span class="countBranch1"></span></B></font>
+	</div><br>
 
 	<!--user2-->
 
@@ -123,6 +127,12 @@
 	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
 	<font size="4"><B>実装行数 = <span class="countChange2"></span></B></font>
 	</div><br>
+
+		<div style="position: absolute; top:745; left:900;
+	border-style: solid ; border-width: 1px; padding: 10px 5px 10px 10px; border-color: black;width: 200px;">
+	<font size="4"><B>ブランチ数 = <span class="countBranch2"></span></B></font>
+	</div><br>
+
 
 
 	<div style="position: absolute; top:300; left:675;">
@@ -323,7 +333,29 @@
 	  		});
 	  	}
 
+		$(document).ready(function(){
+			countBranch1();
+		  });
 
+		function countBranch1(){
+		get.countBranch(user1, {
+			  callback: function(data){
+			  	 $(".countBranch1").text(data);
+			  	 }
+			  });
+		}
+
+		$(document).ready(function(){
+			countBranch2();
+		  });
+
+		function countBranch2(){
+		get.countBranch(user1, {
+			  callback: function(data){
+			  	 $(".countBranch2").text(data);
+			  	 }
+			  });
+		}
 
 
 	  	<!--結果-->
