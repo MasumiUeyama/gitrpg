@@ -12,9 +12,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
 
 /**
  * DWRでJSから呼ばれるメソッドはすべてpublicでなければならない．また，必要なクラスはすべてdwr.xmlに定義されている必要がある．
@@ -26,6 +28,15 @@ public class Mongo {
 	public static void main(String[] args) throws Exception{
 		Main.main();
 		}
+
+
+	public static String deleteResult() throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Result");
+		deleteDatabase(col1);
+		return "勝敗結果をリセットしました。";
+	}
 
 	public static void setDatabase1(MongoCollection<Document> col1,String reply) throws Exception {
 		JSONParser parser = new JSONParser();
