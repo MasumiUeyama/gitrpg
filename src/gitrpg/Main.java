@@ -67,8 +67,8 @@ public class Main {
 
 	public static String judge(String name1,String name2) throws Exception{
 		Random rnd = new Random();
-		int p1=Get.countComment(name1)*100 + Get.countCommit(name1)*50 + Get.countChange(name1);
-		int p2=Get.countComment(name2)*100 + Get.countCommit(name2)*50 + Get.countChange(name2);
+		int p1=Get.countComment(name1)*100 + Get.countCommit(name1)*50 + Get.countChange(name1)+ Get.countBranch(name1)*50;
+		int p2=Get.countComment(name2)*100 + Get.countCommit(name2)*50 + Get.countChange(name2)+ Get.countBranch(name1)*50;
 
 		System.out.println(p1+":"+p2);
 
