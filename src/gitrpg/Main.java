@@ -11,13 +11,13 @@ import com.mongodb.client.MongoDatabase;
 public class Main {
 
 	static String team = "igakilab";
-//	static String repo = "tasks-monitor";
-//	static String name ="koike-marshmallow";
-//	static String name2 ="S-k-pt";
+	//	static String repo = "tasks-monitor";
+	//	static String name ="koike-marshmallow";
+	//	static String name2 ="S-k-pt";
 	static String repo = "gitrpg";
 	static String name ="MasumiUeyama";
 	static String name2 ="aoki-tha";
-	static int day = 35;
+	static int day = 1;
 
 	public static int main() throws Exception{
 		MongoClient mongoClient = new MongoClient();
@@ -31,15 +31,16 @@ public class Main {
 		Mongo.deleteDatabase(col1,col2,col3);
 		Mongo.deleteDatabase(col4,coltmp);
 
-		Get.getMember(team,repo,col5);
-		//String[]strl=Get.countMember();
-		Get.getComment(team,repo,col1);
-		Get.getCommit(team, repo,day, col2);
-		Get.getEvent(team, repo,day,col3);
-		Get.getBranch(col3, col4);
+		System.out.println(Get.countResult(name,name2));
 
-		String a=judge(name, name2);
-		System.out.println(a);
+//		Get.getMember(team,repo,col5);
+//		Get.getComment(team,repo,col1);
+//		Get.getCommit(team, repo,day, col2);
+//		Get.getEvent(team, repo,day,col3);
+//		Get.getBranch(col3, col4);
+//
+//		String a=judge(name, name2);
+//		System.out.println(a);
 		mongoClient.close();
 		int i=0;
 		return i;
@@ -66,6 +67,10 @@ public class Main {
 	}
 
 	public static String judge(String name1,String name2) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Result");
+
 		Random rnd = new Random();
 		int p1=Get.countComment(name1)*100 + Get.countCommit(name1)*50 + Get.countChange(name1)+ Get.countBranch(name1)*50;
 		int p2=Get.countComment(name2)*100 + Get.countCommit(name2)*50 + Get.countChange(name2)+ Get.countBranch(name1)*50;
@@ -89,18 +94,35 @@ public class Main {
 		if(p1<p2)  result= "p2の勝ち";
 		if(p1==p2)  result= "わけ";
 
-		System.out.println(p1+":"+p2);
+		//System.out.println(p1+":"+p2);
+
+		Document doc = new Document();
+
+		if(p1>p2){
+			doc.append("player",name1+"-vs-"+name2);
+			doc.append("win",name1);
+			col1.insertOne(doc);
+		} else if(p1<p2){
+			doc.append("player",name1+"-vs-"+name2);
+			doc.append("win",name2);
+			col1.insertOne(doc);
+		} else {
+			doc.append("player",name1+"-vs-"+name2);
+			doc.append("win","draw");
+			col1.insertOne(doc);
+		}
+
 		return result;
 
 	}
 
-//	public static List<CommitData> main2() throws Exception{
-//		MongoClient mongoClient = new MongoClient();
-//		MongoDatabase database = mongoClient.getDatabase("mydb");
-//		MongoCollection<Document> col7 = database.getCollection("Commit");
-//
-//		return Get.getCommit(team, repo, name, day, col7);
-//	}
+	//	public static List<CommitData> main2() throws Exception{
+	//		MongoClient mongoClient = new MongoClient();
+	//		MongoDatabase database = mongoClient.getDatabase("mydb");
+	//		MongoCollection<Document> col7 = database.getCollection("Commit");
+	//
+	//		return Get.getCommit(team, repo, name, day, col7);
+	//	}
 
 	public static int commit(String team,String repo,String name,int day,MongoCollection<Document>col1,MongoCollection<Document>col2,MongoCollection<Document>col3) throws Exception{
 		int i =0;

@@ -28,6 +28,27 @@ public class Get {
 		Main.main();
 	}
 
+	public static String countResult(String name1,String name2) throws Exception{
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> col1 = database.getCollection("Result");
+		int count = Mongo.mongoCount(col1);
+		String strArray1[] = new String[count];
+		int player1 = 0;
+		int player2 = 0;
+		int draw = 0;
+		for(Document doc : col1.find()){
+			JSONObject json = new JSONObject();
+			json.put("win", doc.getString("win"));
+			if(doc.getString("win").equals(name1)) player1++;
+			if(doc.getString("win").equals(name2)) player2++;
+			if(doc.getString("win").equals("darw")) draw++;
+		}
+		//System.out.println(result);
+		String result =name1+"の勝利数"+player1+"　" +name2+"の勝利数"+ player2 +"　"+"引分け数"+ draw;
+		return result;
+	}
+
 	public static String[] countMember() throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
