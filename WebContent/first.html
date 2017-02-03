@@ -55,7 +55,7 @@
 
 	  <tr>
 	    <td align="right"><b> 名前：</b></td>
-	    <td><input type="text" name="user2" size="30" maxlength="20"></td>
+	    <td><select id="userSelect" name="user2"></select></td>
 	  </tr>
 	</table>
 
@@ -92,7 +92,9 @@
 	ブランチ数 = <font size="3"><B><span class="countBranch"></span></B></font>
 	</div><br>
 
-
+    <div style="position: absolute; top:400; left:1250;background-color:#FFFFFF;">
+    <span class="countMember"></span>
+	</div>
 
 	<script type="text/javascript">
 	  var user1;
@@ -100,7 +102,7 @@
 	  var team;
 	  var day;
 
-	 　$(document).ready(function(){
+	  $(document).ready(function(){
 	    	var arg = new Object;
 	    	var pair=location.search.substring(1).split('&');
 	    	for(var i=0;pair[i];i++) {
@@ -119,6 +121,7 @@
 			    countCommit();
 			    countComment();
 			    countChange();
+			    countMember();
 
 
 		$(".link-battle").attr("href", "combat.html?user1=" + arg.user1);
@@ -210,6 +213,22 @@
 		  	 }
 		  });
 	}
+
+	$(document).ready(function(){
+		countMember();
+	  });
+
+	function countMember(){
+	get.countMember({
+		  callback: function(data){
+			for(var i=0; i<data.length; i++){
+				$("#userSelect").append(
+					$("<option></option>").attr("value", data[i]).text(data[i]));
+			}
+		  }
+		 });
+	}
+
 	</script>
 
 
