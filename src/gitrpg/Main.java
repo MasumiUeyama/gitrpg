@@ -75,11 +75,11 @@ public class Main {
 		String result="";
 
 		if(p1>p2){
-			p1 = rnd.nextInt(8) + 3;
-			p2 = rnd.nextInt(9) + 1;
+			p1 = rnd.nextInt(6) + 3;
+			p2 = rnd.nextInt(6) + 1;
 		} else if(p1<p2){
-			p1 = rnd.nextInt(9) + 1;
-			p2 = rnd.nextInt(8) + 3;
+			p1 = rnd.nextInt(6) + 1;
+			p2 = rnd.nextInt(6) + 3;
 		} else {
 			p1 = rnd.nextInt(10) + 10;
 			p2 = rnd.nextInt(10) + 10;
