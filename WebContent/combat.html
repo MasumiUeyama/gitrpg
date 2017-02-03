@@ -156,12 +156,16 @@
 
 
 
+
+
 	<!--ポップアップ-->
 
 	<div id="popup1" class="popup">
 	<div class="popup_inner">
 	<h4><font size="4"><B><CENTER>対戦結果</CENTER></B></font></h4>
 	<p><font size="4"><B><span class="judge"></B></font></span></p>
+
+	<p><font size="4"><B><span class="countResult"></B></font></span></p>
 
 	<div>
 	<a href="#close_btn" class="close_btn">閉じる</a>
@@ -362,6 +366,18 @@
 		  });
 
 
+		$(document).ready(function(){
+			countResult();
+		  });
+
+		function countResult(){
+		get.countResult(user1,user2, {
+			  callback: function(data){
+			  	 $(".countResult").text(data);
+			  	 }
+			  });
+		}
+
 
 
 	  	<!--結果-->
@@ -391,6 +407,13 @@
 	  	            		$(".judge").text(data);
 	  	            	}
 	  	            });
+
+	  	            get.countResult(user1, user2, {
+	  	            	callback: function(data){
+	  	            		$(".countResult").text(data);
+	  	            	}
+	  	            });
+
 
 	  	            // ポップアップの幅と高さからmarginを計算する
 	  	            var mT = ($popup.outerHeight() / 2) * (-1) + 'px';

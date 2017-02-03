@@ -16,7 +16,7 @@
 
 <span class="judge"></span>
 
-
+<span class="judge"></span>
 
 
  <script type="text/javascript">
@@ -62,6 +62,19 @@
 					}
 				});
 			}
+
+			$(document).ready(function(){
+				countResult();
+			  });
+
+			function countResult(){
+			get.countResult(user1,user2, {
+				  callback: function(data){
+				  	 $(".countResult").text(data);
+				  	 }
+				  });
+			}
+
 
 
 
