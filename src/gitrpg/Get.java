@@ -208,6 +208,7 @@ public class Get {
 			json.put("branch", doc.getString("ref"));
 			if(doc.getString("id").equals("CreateEvent")) result.add(json);
 		}
+		System.out.println(result);
 		Mongo.setDatabase1(col2, result.toJSONString());
 
 	}

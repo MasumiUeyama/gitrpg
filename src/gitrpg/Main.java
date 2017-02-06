@@ -69,7 +69,20 @@ public class Main {
 	public static String judge(String name1,String name2) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
-		MongoCollection<Document> col1 = database.getCollection("Result");
+		MongoCollection<Document> col1 = database.getCollection("Comment");
+		MongoCollection<Document> col2 = database.getCollection("Commit");
+		MongoCollection<Document> col3 = database.getCollection("Event");
+		MongoCollection<Document> col4 = database.getCollection("Branch");
+		MongoCollection<Document> col5 = database.getCollection("Member");
+		MongoCollection<Document> coltmp = database.getCollection("tmp");
+		Mongo.deleteDatabase(col1,col2,col3);
+		Mongo.deleteDatabase(col4,col5,coltmp);
+		Get.getMember(team,repo,col5);
+		Get.getComment(team,repo,col1);
+		Get.getCommit(team, repo,day, col2);
+		Get.getEvent(team, repo,day,col3);
+		Get.getBranch(col3, col4);
+		MongoCollection<Document> col6 = database.getCollection("Result");
 
 		Random rnd = new Random();
 		int p1=Get.countComment(name1)*50 + Get.countCommit(name1)*100 + Get.countChange(name1)+ Get.countBranch(name1)*50;
@@ -103,15 +116,15 @@ public class Main {
 		if(p1>p2){
 			doc.append("player",name1+"-vs-"+name2);
 			doc.append("win",name1);
-			col1.insertOne(doc);
+			col6.insertOne(doc);
 		} else if(p1<p2){
 			doc.append("player",name1+"-vs-"+name2);
 			doc.append("win",name2);
-			col1.insertOne(doc);
+			col6.insertOne(doc);
 		} else {
 			doc.append("player",name1+"-vs-"+name2);
 			doc.append("win","draw");
-			col1.insertOne(doc);
+			col6.insertOne(doc);
 		}
 
 		return result;
