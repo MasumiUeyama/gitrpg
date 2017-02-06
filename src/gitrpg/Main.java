@@ -83,9 +83,9 @@ public class Main {
 
 		if(p1>p2){
 			p1 = rnd.nextInt(6) + 3;
-			p2 = rnd.nextInt(6) + 1;
+			p2 = rnd.nextInt(6) + 2;
 		} else if(p1<p2){
-			p1 = rnd.nextInt(6) + 1;
+			p1 = rnd.nextInt(6) + 2;
 			p2 = rnd.nextInt(6) + 3;
 		} else {
 			p1 = rnd.nextInt(10) + 10;
