@@ -10,7 +10,7 @@ class MonboTest{
 		MongoClient client = new MongoClient("150.89.234.253", 27018);
 
 		Monbo mon = new Monbo(client);
-
+//あほ
 		mon.allRemove("gittasks", "ueyama");
 	}
 }
