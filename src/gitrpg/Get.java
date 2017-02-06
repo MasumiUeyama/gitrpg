@@ -75,6 +75,7 @@ public class Get {
 			//json.put("id", doc.getString("id"));
 			json.put("login", doc.getString("login"));
 			if(doc.getString("login").equals(name)) result++;
+			System.out.println(json.put("login", doc.getString("login")));
 		}
 		//System.out.println(result);
 		return result;

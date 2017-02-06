@@ -18,7 +18,7 @@
 		<create creator="new" javascript="http">
 			<param name="class" value="gitrpg.http" />
 		</create>
-				<create creator="new" javascript="Mongo">
+				<create creator="new" javascript="mongo">
 			<param name="class" value="gitrpg.Mongo" />
 		</create>
 		<convert converter="bean" match="gitrpg.*" />

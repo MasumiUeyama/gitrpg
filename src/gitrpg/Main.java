@@ -17,7 +17,7 @@ public class Main {
 	static String repo = "gitrpg";
 	static String name ="MasumiUeyama";
 	static String name2 ="aoki-tha";
-	static int day = 1;
+	static int day = 14;
 
 	public static int main() throws Exception{
 		MongoClient mongoClient = new MongoClient();
@@ -33,14 +33,14 @@ public class Main {
 
 		System.out.println(Get.countResult(name,name2));
 
-//		Get.getMember(team,repo,col5);
-//		Get.getComment(team,repo,col1);
-//		Get.getCommit(team, repo,day, col2);
-//		Get.getEvent(team, repo,day,col3);
-//		Get.getBranch(col3, col4);
-//
-//		String a=judge(name, name2);
-//		System.out.println(a);
+		Get.getMember(team,repo,col5);
+		Get.getComment(team,repo,col1);
+		Get.getCommit(team, repo,day, col2);
+		Get.getEvent(team, repo,day,col3);
+		Get.getBranch(col3, col4);
+
+		String a=judge(name, name2);
+		System.out.println(a);
 		mongoClient.close();
 		int i=0;
 		return i;
@@ -72,9 +72,11 @@ public class Main {
 		MongoCollection<Document> col1 = database.getCollection("Result");
 
 		Random rnd = new Random();
-		int p1=Get.countComment(name1)*100 + Get.countCommit(name1)*50 + Get.countChange(name1)+ Get.countBranch(name1)*50;
-		int p2=Get.countComment(name2)*100 + Get.countCommit(name2)*50 + Get.countChange(name2)+ Get.countBranch(name1)*50;
+		int p1=Get.countComment(name1)*50 + Get.countCommit(name1)*100 + Get.countChange(name1)+ Get.countBranch(name1)*50;
+		int p2=Get.countComment(name2)*50 + Get.countCommit(name2)*100 + Get.countChange(name2)+ Get.countBranch(name2)*50;
 
+		int p3=Get.countComment(name1);
+		System.out.println(p3);
 		System.out.println(p1+":"+p2);
 
 		String result="";
