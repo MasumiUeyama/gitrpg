@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/jquery.serialize.js"></script>
     <script type="text/javascript" src="dwr/interface/main.js"></script>
     <script type="text/javascript" src="dwr/interface/get.js"></script>
-
+ 	<script type="text/javascript" src="dwr/interface/mongo.js"></script>
 	<style>
 
 	BODY{
@@ -154,9 +154,12 @@
 	</form>
 	</div>
 
+	<!--リセットボタン-->
+	<div style="position: absolute; top:500; left:675;">
 
+ 	<a href="#"type="button" class="delete_btn" style="font-size:30px;">リセット</a>
 
-
+	</div>
 
 	<!--ポップアップ-->
 
@@ -378,6 +381,16 @@
 			  });
 		}
 
+		$(document).ready(function(){
+			$(".delete_btn").on('click', function(){
+				mongo.deleteResult({
+  	            	callback: function(data){
+  	            		//$(".deleateResult").text(data);
+  	            		alert(data);
+  	            	}
+  	            });
+			});
+		});
 
 
 	  	<!--結果-->
@@ -435,7 +448,6 @@
 	  	        });
 	  	});
 	  	})(jQuery);
-
 
 </script>
 </BODY>
