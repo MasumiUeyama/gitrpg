@@ -15,9 +15,9 @@ public class Main {
 	//	static String name ="koike-marshmallow";
 	//	static String name2 ="S-k-pt";
 	static String repo = "gitrpg";
-	static String name ="MasumiUeyama";
-	static String name2 ="aoki-tha";
-	static int day = 14;
+	static String name ="aoki-tha";
+	static String name2 ="MasumiUeyama";
+	static int day = 1134;
 
 	public static int main() throws Exception{
 		MongoClient mongoClient = new MongoClient();
@@ -31,16 +31,15 @@ public class Main {
 		Mongo.deleteDatabase(col1,col2,col3);
 		Mongo.deleteDatabase(col4,coltmp);
 
-		System.out.println(Get.countResult(name,name2));
+		//System.out.println(Get.countResult(name,name2));
 
-		Get.getMember(team,repo,col5);
-		Get.getComment(team,repo,col1);
-		Get.getCommit(team, repo,day, col2);
+//		Get.getMember(team,repo,col5);
+//		Get.getComment(team,repo,col1);
+//		Get.getCommit(team, repo,day, col2);
 		Get.getEvent(team, repo,day,col3);
-		Get.getBranch(col3, col4);
-
-		String a=judge(name, name2);
-		System.out.println(a);
+//		Get.getBranch(col3, col4);
+//		String a=judge(name, name2);
+//		System.out.println(a);
 		mongoClient.close();
 		int i=0;
 		return i;
@@ -55,9 +54,8 @@ public class Main {
 		MongoCollection<Document> col3 = database.getCollection("Event");
 		MongoCollection<Document> col4 = database.getCollection("Branch");
 		MongoCollection<Document> col5 = database.getCollection("Member");
-		MongoCollection<Document> coltmp = database.getCollection("tmp");
 		Mongo.deleteDatabase(col1,col2,col3);
-		Mongo.deleteDatabase(col4,col5,coltmp);
+		Mongo.deleteDatabase(col4,col5);
 		Get.getMember(team,repo,col5);
 		Get.getComment(team,repo,col1);
 		Get.getCommit(team, repo,day, col2);
@@ -69,28 +67,24 @@ public class Main {
 	public static String judge(String name1,String name2) throws Exception{
 		MongoClient mongoClient = new MongoClient();
 		MongoDatabase database = mongoClient.getDatabase("mydb");
-		MongoCollection<Document> col1 = database.getCollection("Comment");
-		MongoCollection<Document> col2 = database.getCollection("Commit");
-		MongoCollection<Document> col3 = database.getCollection("Event");
-		MongoCollection<Document> col4 = database.getCollection("Branch");
-		MongoCollection<Document> col5 = database.getCollection("Member");
-		MongoCollection<Document> coltmp = database.getCollection("tmp");
-		Mongo.deleteDatabase(col1,col2,col3);
-		Mongo.deleteDatabase(col4,col5,coltmp);
-		Get.getMember(team,repo,col5);
-		Get.getComment(team,repo,col1);
-		Get.getCommit(team, repo,day, col2);
-		Get.getEvent(team, repo,day,col3);
-		Get.getBranch(col3, col4);
+//		MongoCollection<Document> col1 = database.getCollection("Comment");
+//		MongoCollection<Document> col2 = database.getCollection("Commit");
+//		MongoCollection<Document> col3 = database.getCollection("Event");
+//		MongoCollection<Document> col4 = database.getCollection("Branch");
+//		MongoCollection<Document> col5 = database.getCollection("Member");
+//		MongoCollection<Document> coltmp = database.getCollection("tmp");
+//		Mongo.deleteDatabase(col1,col2,col3);
+//		Mongo.deleteDatabase(col4,col5,coltmp);
+//		Get.getMember(team,repo,col5);
+//		Get.getComment(team,repo,col1);
+//		Get.getCommit(team, repo,day, col2);
+//		Get.getEvent(team, repo,day,col3);
+//		Get.getBranch(col3, col4);
 		MongoCollection<Document> col6 = database.getCollection("Result");
 
 		Random rnd = new Random();
 		int p1=Get.countComment(name1)*50 + Get.countCommit(name1)*100 + Get.countChange(name1)+ Get.countBranch(name1)*50;
 		int p2=Get.countComment(name2)*50 + Get.countCommit(name2)*100 + Get.countChange(name2)+ Get.countBranch(name2)*50;
-
-		int p3=Get.countComment(name1);
-		System.out.println(p3);
-		System.out.println(p1+":"+p2);
 
 		String result="";
 
@@ -105,8 +99,8 @@ public class Main {
 			p2 = rnd.nextInt(10) + 10;
 		}
 
-		if(p1>p2)  result= "user1の勝ち";
-		if(p1<p2)  result= "user2の勝ち";
+		if(p1>p2)  result= name1+"の勝ち";
+		if(p1<p2)  result= name2+"の勝ち";
 		if(p1==p2)  result= "わけ";
 
 		//System.out.println(p1+":"+p2);
