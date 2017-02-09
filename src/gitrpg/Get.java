@@ -123,9 +123,10 @@ public class Get {
 		for(Document doc : col1.find()){
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
-			json.put("branch", doc.getString("branch"));
 			if(doc.getString("login").equals(name)) sum++;
+			System.out.println(sum);
 		}
+		System.out.println("カウントブランチイイ"+sum);
 		return  sum;
 	}
 
@@ -208,7 +209,7 @@ public class Get {
 			json.put("branch", doc.getString("ref"));
 			if(doc.getString("id").equals("CreateEvent")) result.add(json);
 		}
-		System.out.println(result);
+		System.out.println("ブランチのテストっっっっっっっｐ"+result);
 		Mongo.setDatabase1(col2, result.toJSONString());
 
 	}
@@ -228,24 +229,17 @@ public class Get {
 		cal1.add(Calendar.DATE, DAY*-1);
 
 		page++;
-		url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
-		replys[page]=http.apiGet(url);
-		if(replys[page].equals(end)) {
-		}else {
-			su=reply.length();
-			reply = reply.substring(0,su-1);
-		}
 		while(page!=10){
 			url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
 			replys[page]=http.apiGet(url);
 			if(replys[page].equals(end)) break;
-
 			su=replys[page].length();
 			replys[page] = replys[page].substring(1,su-1);
 			reply=reply+replys[page];
 			page++;
+
 		}
-		reply = reply + "]";
+		if(page!=2) reply = reply + "]";
 
 		//String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		//String b = "\"},\"committer\":";
@@ -310,6 +304,7 @@ public class Get {
 		String str = df.format(cal1.getTime());
 
 		String url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/commits?since="+str;
+//String url = "https://api.github.com/repos/igakilab/monsterzoo/commits";
 
 		String reply=http.apiGet(url);
 		//String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
