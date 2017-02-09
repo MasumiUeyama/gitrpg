@@ -14,9 +14,9 @@ public class Main {
 	//	static String repo = "tasks-monitor";
 	//	static String name ="koike-marshmallow";
 	//	static String name2 ="S-k-pt";
-	static String repo = "monsterzoo";
-	static String name ="igaki";
-	static String name2 ="e1b14016";
+	static String repo = "gitrpg";
+	static String name ="aoki-tha";
+	static String name2 ="MasumiUeyama";
 	static int day = 1134;
 
 	public static int main() throws Exception{
@@ -33,13 +33,13 @@ public class Main {
 
 		//System.out.println(Get.countResult(name,name2));
 
-		Get.getMember(team,repo,col5);
-		Get.getComment(team,repo,col1);
-		Get.getCommit(team, repo,day, col2);
+//		Get.getMember(team,repo,col5);
+//		Get.getComment(team,repo,col1);
+//		Get.getCommit(team, repo,day, col2);
 		Get.getEvent(team, repo,day,col3);
-		Get.getBranch(col3, col4);
-		//String a=judge(name, name2);
-		//System.out.println(a);
+//		Get.getBranch(col3, col4);
+//		String a=judge(name, name2);
+//		System.out.println(a);
 		mongoClient.close();
 		int i=0;
 		return i;

@@ -124,7 +124,7 @@ public class Get {
 			//String json = doc.toJson();
 			JSONObject json = new JSONObject();
 			if(doc.getString("login").equals(name)) sum++;
-			System.out.println(sum);
+			System.out.println(doc);
 		}
 		System.out.println("カウントブランチイイ"+sum);
 		return  sum;
@@ -233,14 +233,19 @@ public class Get {
 			url = "https://api.github.com/repos/" +TEAM+"/"+ REPOS +"/events"+"?page="+page;
 			replys[page]=http.apiGet(url);
 			if(replys[page].equals(end)) break;
+			else if(page==2) {
+				su=reply.length();
+				reply= reply.substring(0,su-1);
+			}
 			su=replys[page].length();
 			replys[page] = replys[page].substring(1,su-1);
+			System.out.println(replys[page]);
 			reply=reply+replys[page];
 			page++;
 
 		}
 		if(page!=2) reply = reply + "]";
-
+		//System.out.println(reply);
 		//String a = "T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z\"},\"committer\":";
 		//String b = "\"},\"committer\":";
 		//reply = reply.replaceAll(a,b);
