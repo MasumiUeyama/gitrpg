@@ -239,7 +239,7 @@ public class Get {
 			}
 			su=replys[page].length();
 			replys[page] = replys[page].substring(1,su-1);
-			System.out.println(replys[page]);
+			//System.out.println(replys[page]);
 			reply=reply+replys[page];
 			page++;
 
